@@ -1,0 +1,117 @@
+---
+import { Button } from "@/components/ui/button";
+import { groups, PHONE } from "@/components/site/SiteNav";
+
+interface Props {
+	/** Closing CTA banner that overlaps the top of the footer. */
+	cta?: boolean;
+	ctaTitle?: string;
+	ctaLabel?: string;
+	ctaHref?: string;
+}
+const {
+	cta = true,
+	ctaTitle = "Ready to change the way you handle utilities?",
+	ctaLabel = "Book a demo",
+	ctaHref = "/property-managers",
+} = Astro.props;
+
+const columns = [
+	...groups.map((g) => ({ label: g.label, links: g.links.map((l) => ({ title: l.title, href: l.href })) })),
+	{
+		label: "Contact",
+		links: [
+			{ title: PHONE.display, href: PHONE.href },
+			{ title: "Get in touch", href: "/contact" },
+			{ title: "Resources", href: "/blog" },
+		],
+	},
+];
+
+const socials = [
+	{
+		name: "Facebook",
+		href: "https://www.facebook.com/people/Utility-Valet/61552267613964/",
+		path: "M14 8.5V6.6c0-.9.6-1.1 1-1.1h2.6V1.5L14 1.5c-4 0-4.9 3-4.9 4.9v2.1H6.8v4.1h2.3V22.5H14V12.6h3.3l.4-4.1z",
+	},
+	{
+		name: "LinkedIn",
+		href: "https://www.linkedin.com/company/utilityvalet",
+		path: "M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9.75h4v11H3zM9.5 9.75h3.8v1.5h.05c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.78 2.65 4.78 6.1v5.45h-4v-4.83c0-1.15-.02-2.63-1.6-2.63-1.61 0-1.85 1.25-1.85 2.55v4.91h-4z",
+	},
+];
+
+const year = new Date().getFullYear();
+---
+
+<footer class="mt-8">
+	{
+		cta && (
+			<div class="relative z-10 mx-auto -mb-28 max-w-site px-5 lg:px-8">
+				<div class="grain relative isolate flex flex-col items-start justify-between gap-8 overflow-hidden rounded-[2rem] bg-gradient-sky px-7 py-12 md:flex-row md:items-center md:px-14 md:py-16">
+					<h2 class="mb-0 max-w-2xl text-3xl! md:text-[2.75rem]!">{ctaTitle}</h2>
+					<Button client:visible href={ctaHref} size="lg" icon="arrow" className="shrink-0">
+						{ctaLabel}
+					</Button>
+				</div>
+			</div>
+		)
+	}
+
+	<div class="dark mx-3 rounded-t-[2rem] bg-[#0b1142] text-white md:mx-4">
+		<div class:list={["mx-auto max-w-site px-5 pb-10 lg:px-8", cta ? "pt-44" : "pt-20"]}>
+			<div class="grid gap-12 lg:grid-cols-[1.2fr_2fr]">
+				<div>
+					<a href="/" aria-label="Utility Valet home">
+						<img src="/brand/logo/utility-valet-logo-white.png" alt="Utility Valet" class="h-14 w-auto" width="154" height="56" loading="lazy" />
+					</a>
+					<p class="mt-6 max-w-xs text-white/65">Turning on every American home, one move-in at a time.</p>
+					<div class="mt-8 flex gap-3">
+						{
+							socials.map((s) => (
+								<a
+									href={s.href}
+									target="_blank"
+									rel="noopener noreferrer"
+									aria-label={`Utility Valet on ${s.name}`}
+									class="flex size-11 items-center justify-center rounded-full bg-white/8 text-white transition-colors hover:bg-cyan hover:text-navy"
+								>
+									<svg viewBox="0 0 24 24" class="size-5 fill-current" aria-hidden="true">
+										<path d={s.path} />
+									</svg>
+								</a>
+							))
+						}
+					</div>
+				</div>
+
+				<nav aria-label="Footer" class="grid grid-cols-2 gap-10 sm:grid-cols-4">
+					{
+						columns.map((col) => (
+							<div>
+								<p class="font-heading text-xs font-medium tracking-widest text-cyan uppercase">{col.label}</p>
+								<ul class="mt-5 grid gap-3">
+									{col.links.map((l) => (
+										<li>
+											<a href={l.href} class="text-white/75 transition-colors hover:text-white">
+												{l.title}
+											</a>
+										</li>
+									))}
+								</ul>
+							</div>
+						))
+					}
+				</nav>
+			</div>
+
+			<div class="mt-16 flex flex-col gap-4 border-t border-white/10 pt-8 text-sm text-white/60 sm:flex-row sm:items-center sm:justify-between">
+				<p>© {year} Utility Valet. All rights reserved.</p>
+				<div class="flex gap-6">
+					<a href="/privacy-policy" class="hover:text-white">Privacy Policy</a>
+					<a href="/terms-of-service" class="hover:text-white">Terms of Service</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</footer>

@@ -1,0 +1,150 @@
+---
+import { ValetArrow } from "@/components/ui/button";
+import { offerings as o, servicePageFor, type ServiceKey } from "@/data/revenue-valet";
+import { serviceIcons } from "@/components/site/revenue-valet/icons";
+import OfferViz from "@/components/site/revenue-valet/OfferViz.astro";
+
+// Bento order: Instanet leads (2 cols), "coming soon" closes as a full-width strip. Each card carries a small data visual.
+// Each card links to its subpage at /revenue-valet/<slug>.
+const href = (key: ServiceKey) => `/revenue-valet/${servicePageFor(key).slug}`;
+const cards = (["pest", "filters", "insurance", "rewards", "credit", "deals", "valet"] as const).map((key) => ({
+	...o[key],
+	icon: serviceIcons[key],
+	viz: key,
+	href: href(key),
+}));
+const { instanet: Wifi, coming: Sparkles } = serviceIcons;
+---
+
+<section id="offer" class="relative z-10 -mt-8 scroll-mt-16 px-3 md:-mt-10 md:px-4">
+	<div class="dark relative overflow-hidden rounded-[2rem] bg-[#0b1142] px-5 py-20 text-white md:px-8 md:py-28">
+		<div
+			class="pointer-events-none absolute inset-0 bg-[radial-gradient(55%_40%_at_85%_0%,rgb(14_109_249/0.35),transparent_70%),radial-gradient(40%_35%_at_0%_100%,rgb(205_62_249/0.16),transparent_70%)]"
+			aria-hidden="true"
+		>
+		</div>
+
+		<div class="relative mx-auto max-w-site">
+			<div class="flex flex-col justify-between gap-6 md:flex-row md:items-end">
+				<div class="max-w-2xl">
+					<p class="mb-3 font-heading text-xs font-medium tracking-widest text-cyan uppercase">The benefits package</p>
+					<h2 class="mb-0 text-white">What we offer</h2>
+				</div>
+				<p class="max-w-md text-lg text-white/70">One program for every part of the resident experience. Bundle the whole suite or pick the pieces that fit your portfolio.</p>
+			</div>
+
+			<ul class="mt-12 grid gap-4 md:mt-16 md:grid-cols-2 lg:grid-cols-3 lg:gap-5">
+				<!-- Instanet: featured -->
+				<li class="md:col-span-2">
+					<a
+						href={href("instanet")}
+						class="group grain relative isolate grid h-full items-center gap-8 overflow-hidden rounded-3xl bg-gradient-sky p-7 text-navy transition-transform duration-500 hover:-translate-y-1 focus-visible:ring-4 focus-visible:ring-cyan focus-visible:outline-none md:grid-cols-[1fr_minmax(0,300px)] md:p-10"
+					>
+						<div class="relative z-10 max-w-md">
+							<span class="icon-tile flex size-12 items-center justify-center rounded-2xl">
+								<Wifi className="size-6" />
+							</span>
+							<h3 class="mt-6 mb-3 text-2xl! text-navy md:text-3xl!">{o.instanet.title}</h3>
+							<p class="text-navy/80">{o.instanet.body}</p>
+							<span class="mt-8 inline-flex items-center gap-2 font-semibold text-navy">
+								Learn More
+								<ValetArrow aria-hidden="true" className="transition-transform duration-300 group-hover:translate-x-1" />
+							</span>
+						</div>
+						<div class="relative z-10">
+							<OfferViz kind="instanet" />
+						</div>
+						<!-- Signal rings -->
+						<div class="pointer-events-none absolute -right-24 -bottom-24 size-[420px] md:-right-16 md:-bottom-32" aria-hidden="true">
+							{
+								[1, 0.78, 0.56, 0.34].map((s, i) => (
+									<span
+										class="signal absolute inset-0 m-auto rounded-full border-2 border-white/60"
+										style={`width:${s * 100}%;height:${s * 100}%;animation-delay:${i * 0.35}s`}
+									/>
+								))
+							}
+							<span class="absolute inset-0 m-auto flex size-20 items-center justify-center rounded-full bg-white/90 text-royal shadow-[0_0_60px_10px_rgb(255_255_255/0.5)]">
+								<Wifi className="size-9" />
+							</span>
+						</div>
+					</a>
+				</li>
+
+				{
+					cards.map((c) => (
+						<li>
+							<article class="group flex h-full flex-col rounded-3xl border border-white/10 bg-white/[0.04] p-7 transition-colors duration-300 hover:border-cyan/40 hover:bg-white/[0.07] md:p-8">
+								<span class="icon-tile flex size-12 items-center justify-center rounded-2xl">
+									<c.icon className="size-6" />
+								</span>
+								<h3 class="mt-6 mb-3 text-lg! text-white md:text-xl!">{c.title}</h3>
+								<p class="flex-1 text-white/70">{c.body}</p>
+								<OfferViz kind={c.viz} />
+								<a
+									href={c.href}
+									class="group/link mt-6 inline-flex items-center gap-2 self-start font-semibold text-cyan underline-offset-4 hover:underline"
+								>
+									Learn More<span class="sr-only"> about {c.title}</span>
+									<ValetArrow aria-hidden="true" className="transition-transform duration-300 group-hover/link:translate-x-1" />
+								</a>
+							</article>
+						</li>
+					))
+				}
+
+				<!-- Coming soon -->
+				<li class="md:col-span-2 lg:col-span-3">
+					<article class="flex flex-col gap-6 rounded-3xl border border-dashed border-white/25 p-7 md:flex-row md:items-center md:gap-10 md:p-8">
+						<span class="icon-tile flex size-12 shrink-0 items-center justify-center rounded-2xl">
+							<Sparkles className="size-6" />
+						</span>
+						<div class="flex-1">
+							<h3 class="mb-2 flex flex-wrap items-center gap-3 text-lg! text-white md:text-xl!">
+								{o.coming.title}
+								<span class="rounded-full bg-white/10 px-3 py-1 font-sans text-xs font-semibold tracking-wide text-lavender uppercase">Coming soon</span>
+							</h3>
+							<p class="max-w-3xl text-white/70">{o.coming.body}</p>
+						</div>
+						<div class="w-full md:w-[320px] md:shrink-0">
+							<OfferViz kind="coming" />
+						</div>
+					</article>
+				</li>
+			</ul>
+		</div>
+	</div>
+</section>
+
+<style>
+	.group:hover .icon-tile {
+		scale: 1.06;
+		box-shadow:
+			inset 0 0 0 1px rgb(255 255 255 / 0.35),
+			0 14px 32px -8px rgb(205 62 249 / 0.8);
+	}
+	@media (prefers-reduced-motion: reduce) {
+		.group:hover .icon-tile {
+			scale: 1;
+		}
+	}
+
+	.signal {
+		animation: rv-signal 3.2s ease-in-out infinite;
+	}
+	@keyframes rv-signal {
+		0%,
+		100% {
+			opacity: 0.25;
+		}
+		40% {
+			opacity: 0.9;
+		}
+	}
+	@media (prefers-reduced-motion: reduce) {
+		.signal {
+			animation: none;
+			opacity: 0.5;
+		}
+	}
+</style>

@@ -1,0 +1,57 @@
+---
+/*
+ * Concentric rings that ripple outward, echoing the Instanet signal graphic.
+ * Background decoration for gradient panels: the parent must be positioned,
+ * `isolate` and `overflow-hidden`. Rings sit at -z-10, behind the panel's content.
+ */
+interface Props {
+	/** Ring centre, as CSS lengths relative to the parent. */
+	x?: string;
+	y?: string;
+	/** Diameter of the outermost ring. */
+	size?: string;
+	rings?: number;
+	class?: string;
+}
+
+const { x = "50%", y = "50%", size = "120%", rings = 8, class: className } = Astro.props;
+const scales = Array.from({ length: rings }, (_, i) => (i + 1) / rings);
+---
+
+<div
+	class:list={["pulse-rings pointer-events-none absolute -z-10 aspect-square -translate-1/2", className]}
+	style={`left:${x};top:${y};width:${size}`}
+	aria-hidden="true"
+>
+	{
+		scales.map((s, i) => (
+			<span
+				class="absolute inset-0 m-auto rounded-full border-[1.5px] border-white"
+				style={`width:${s * 100}%;height:${s * 100}%;animation-delay:${i * 0.45}s`}
+			/>
+		))
+	}
+</div>
+
+<style>
+	/* A soft wave travels outward: inner rings brighten first. */
+	.pulse-rings span {
+		opacity: 0.16;
+		animation: uv-pulse-ring 7s ease-in-out infinite;
+	}
+	@keyframes uv-pulse-ring {
+		0%,
+		100% {
+			opacity: 0.12;
+		}
+		30% {
+			opacity: 0.38;
+		}
+	}
+	@media (prefers-reduced-motion: reduce) {
+		.pulse-rings span {
+			animation: none;
+			opacity: 0.2;
+		}
+	}
+</style>

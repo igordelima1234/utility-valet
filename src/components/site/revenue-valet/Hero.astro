@@ -1,0 +1,56 @@
+---
+import { Button } from "@/components/ui/button";
+import RevenueValetVisual from "@/components/site/revenue-valet/RevenueValetVisual";
+import PulseRings from "@/components/site/PulseRings.astro";
+
+const pillars = ["Broad offerings", "Better pricing", "Better service"];
+---
+
+<section class="grid lg:min-h-[max(640px,calc(100svh-5rem))] lg:grid-cols-2">
+	<!-- Copy -->
+	<div class="flex items-center bg-mist px-5 py-16 sm:px-10 sm:py-20 lg:py-24 lg:pr-12 lg:pl-16 xl:pl-24 2xl:pl-32">
+		<div class="w-full max-w-[640px] 2xl:max-w-[720px]">
+			<p class="mb-6 inline-flex items-center gap-2.5 rounded-full bg-white py-1.5 pr-4 pl-1.5 text-sm font-medium text-navy ring-1 ring-navy/8">
+				<img src="/brand/logo/revenue-valet-mark.png" alt="" class="size-7 object-contain" width="28" height="28" />
+				Revenue Valet <span class="text-muted-foreground">by Utility Valet</span>
+			</p>
+
+			<h1 class="mb-0 text-[clamp(2.5rem,5.4vw,3.75rem)] leading-[1.06] font-normal tracking-[-0.03em] lg:text-[clamp(2.75rem,3.9vw,4.25rem)]">
+				A better way to do <span class="text-steel">resident benefits</span>
+			</h1>
+
+			<p class="mt-6 max-w-[34rem] text-lg leading-relaxed text-navy/75 md:text-xl md:leading-relaxed">
+				Better pricing. Better service. Inspired by our white glove and modern tech approach at Utility Valet.
+			</p>
+
+			<div class="mt-10 flex flex-col gap-3 sm:flex-row sm:items-center">
+				<Button client:load href="#demo" variant="hero" size="lg" icon="arrow" className="max-sm:justify-between">
+					Get a demo
+				</Button>
+				<Button client:load href="#offer" variant="outline" size="lg">See what's included</Button>
+			</div>
+
+			<ul class="mt-12 flex flex-wrap gap-x-6 gap-y-3 text-sm font-medium text-navy">
+				{
+					pillars.map((p) => (
+						<li class="flex items-center gap-2">
+							<span class="flex size-5 items-center justify-center rounded-full bg-cyan text-navy">
+								<svg viewBox="0 0 16 16" class="size-3" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+									<path d="M3.5 8.5l3 3 6-7" />
+								</svg>
+							</span>
+							{p}
+						</li>
+					))
+				}
+			</ul>
+		</div>
+	</div>
+
+	<!-- Product visual -->
+	<div class="grain relative isolate min-h-[440px] overflow-hidden bg-gradient-sky sm:min-h-[560px] lg:min-h-0">
+		<div class="pointer-events-none absolute -top-1/4 -right-1/4 size-[80%] rounded-full bg-white/25 blur-3xl" aria-hidden="true"></div>
+		<PulseRings x="66%" y="52%" size="150%" />
+		<RevenueValetVisual client:load />
+	</div>
+</section>

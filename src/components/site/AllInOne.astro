@@ -1,0 +1,185 @@
+---
+import { Building2, Cctv, Droplet, Flame, Handshake, Plug, Truck, Umbrella, Wifi } from "lucide-react";
+
+const services = [
+	{ title: "Utilities", body: "We get electricity, gas, water, and sewer services set up before move-in." },
+	{ title: "Internet", body: "We connect residents with top internet providers and the best available deals." },
+	{ title: "Cable", body: "We help residents find and set up the right cable packages." },
+	{ title: "Renters Insurance", body: "We provide access to affordable renters insurance that meets property management requirements." },
+	{ title: "Home Security", body: "We offer exclusive home security deals, including free doorbell cameras and installations." },
+	{ title: "Moving Coordination", body: "We connect residents with trusted movers." },
+];
+
+const audiences = ["Property Managers", "Brokers & Agents", "Builders & HOAs", "Movers & Relocation"];
+
+// Diagram lives on a 1100 × 560 grid; HTML nodes are placed in % and sized in cqw so it scales as one piece.
+const W = 1100;
+const H = 560;
+const ROWS = [183, 312, 440];
+const left = [
+	{ y: ROWS[0], icon: Building2, label: "Property managers" },
+	{ y: ROWS[1], icon: Handshake, label: "Brokers and agents" },
+	{ y: ROWS[2], icon: Truck, label: "Movers and relocation" },
+];
+const right = [
+	{ x: 890, y: ROWS[0], icon: Wifi, label: "Internet" },
+	{ x: 1020, y: ROWS[0], icon: Flame, label: "Gas" },
+	{ x: 890, y: ROWS[1], icon: Droplet, label: "Water" },
+	{ x: 1020, y: ROWS[1], icon: Plug, label: "Electricity" },
+	{ x: 890, y: ROWS[2], icon: Umbrella, label: "Renters insurance" },
+	{ x: 1020, y: ROWS[2], icon: Cctv, label: "Home security" },
+];
+const CX = 596;
+const CY = 312;
+const pos = (x: number, y: number) => `left:${(x / W) * 100}%;top:${(y / H) * 100}%`;
+const cq = (px: number) => `${((px / W) * 100).toFixed(3)}cqw`;
+
+const paths = [
+	...ROWS.map((y) => `M123 ${y} C 190 ${y}, 180 ${CY}, 240 ${CY}`),
+	`M490 ${CY} L 504 ${CY}`,
+	...ROWS.map((y) => `M688 ${CY} C 770 ${CY}, 770 ${y}, 844 ${y}`),
+	...ROWS.map((y) => `M936 ${y} L 974 ${y}`),
+];
+---
+
+<section class="px-3 md:px-4">
+	<div class="dark relative mx-auto max-w-[1440px] overflow-hidden rounded-[2rem] bg-[#0b1142] px-5 py-20 text-white md:px-8 md:py-28">
+		<div
+			class="pointer-events-none absolute inset-0 bg-[radial-gradient(60%_50%_at_50%_45%,rgb(14_109_249/0.35),transparent_70%),radial-gradient(40%_40%_at_10%_0%,rgb(205_62_249/0.18),transparent_70%)]"
+			aria-hidden="true"
+		>
+		</div>
+
+		<div class="relative mx-auto max-w-site">
+			<div class="mx-auto max-w-2xl text-center">
+				<p class="mb-3 font-heading text-xs font-medium tracking-widest text-cyan uppercase">For residents</p>
+				<h2 class="mb-4 text-white">All-in-One Utility Setup</h2>
+				<p class="text-lg text-white/75">Residents can easily connect essential utilities in one place, saving time and reducing stress.</p>
+			</div>
+
+			<!-- Desktop / tablet diagram -->
+			<div class="@container mx-auto mt-14 hidden max-w-[1100px] md:block" role="img" aria-label="Utility Valet connects property managers, brokers, builders and movers to internet, gas, water, electricity, renters insurance and home security.">
+				<div class="relative aspect-[1100/560]" aria-hidden="true">
+					<svg viewBox={`0 0 ${W} ${H}`} class="absolute inset-0 size-full" fill="none">
+						{[165, 245, 330].map((r) => <circle cx={CX} cy={CY} r={r} stroke="white" stroke-opacity="0.07" />)}
+						{paths.map((d) => <path d={d} stroke="#2cccfb" stroke-opacity="0.35" stroke-width="1.5" />)}
+						{paths.map((d, i) => <path d={d} class="flow" pathLength="100" style={`animation-delay:${i * -0.35}s`} stroke="#8fe6ff" stroke-width="2" stroke-linecap="round" />)}
+					</svg>
+
+					{
+						left.map((n) => (
+							<div class="node" style={`${pos(77, n.y)};width:${cq(92)};height:${cq(92)}`}>
+								<span class="block" style={`width:${cq(38)};height:${cq(38)}`}><n.icon className="size-full" strokeWidth={1.75} /></span>
+							</div>
+						))
+					}
+
+					<div
+						class="absolute flex -translate-1/2 flex-col justify-center rounded-[1.1cqw] border border-white/12 bg-[#101856]/90 shadow-[0_0_40px_-10px_rgb(44_204_251/0.5)]"
+						style={`${pos(365, CY)};width:${cq(250)};height:${cq(132)};padding:0 ${cq(22)};gap:${cq(5)}`}
+					>
+						{
+							audiences.map((a) => (
+								<p class="font-heading leading-tight text-white" style={`font-size:${cq(13.5)}`}>
+									<span class="text-cyan">·</span> {a}
+								</p>
+							))
+						}
+					</div>
+
+					<div
+						class="absolute flex -translate-1/2 items-center justify-center rounded-full bg-[#0b1142] shadow-[0_0_80px_0_rgb(44_204_251/0.45)]"
+						style={`${pos(CX, CY)};width:${cq(184)};height:${cq(184)}`}
+					>
+						<div class="absolute inset-0 rounded-full p-[0.4cqw] [background:conic-gradient(from_200deg,#cd3ef9,#2cccfb,#0e6df9,#ffffff,#2cccfb)] [mask:linear-gradient(#000_0_0)_content-box_exclude,linear-gradient(#000_0_0)]"></div>
+						<img src="/brand/logo/utility-valet-mark.png" alt="" style={`width:${cq(84)}`} />
+					</div>
+
+					{
+						right.map((n) => (
+							<div class="node" style={`${pos(n.x, n.y)};width:${cq(92)};height:${cq(92)}`}>
+								<span class="block" style={`width:${cq(38)};height:${cq(38)}`}><n.icon className="size-full" strokeWidth={1.75} /></span>
+							</div>
+						))
+					}
+				</div>
+			</div>
+
+			<!-- Mobile diagram -->
+			<div class="mt-12 md:hidden" aria-hidden="true">
+				<div class="flex flex-wrap justify-center gap-2">
+					{audiences.map((a) => <span class="rounded-full border border-white/15 bg-white/5 px-3 py-1.5 text-sm">{a}</span>)}
+				</div>
+				<div class="mx-auto my-4 h-8 w-px bg-gradient-to-b from-cyan/0 to-cyan"></div>
+				<div class="mx-auto flex size-24 items-center justify-center rounded-full bg-[#0b1142] shadow-[0_0_50px_0_rgb(44_204_251/0.5)] ring-2 ring-cyan/70">
+					<img src="/brand/logo/utility-valet-mark.png" alt="" class="w-11" />
+				</div>
+				<div class="mx-auto my-4 h-8 w-px bg-gradient-to-b from-cyan to-cyan/0"></div>
+				<div class="grid grid-cols-3 gap-3">
+					{
+						right.map((n) => (
+							<div class="flex flex-col items-center gap-2 rounded-2xl border border-cyan/25 bg-[#101856] py-4 text-center text-xs">
+								<n.icon className="size-6 text-cyan" />
+								{n.label}
+							</div>
+						))
+					}
+				</div>
+			</div>
+
+			<ul class="mt-16 grid gap-x-10 gap-y-10 sm:grid-cols-2 md:mt-20 lg:grid-cols-3 lg:gap-x-16">
+				{
+					services.map((s) => (
+						<li class="flex gap-4">
+							<span class="flex size-8 shrink-0 items-center justify-center rounded-full bg-cyan text-navy">
+								<svg viewBox="0 0 16 16" class="size-4" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+									<path d="M3.5 8.5l3 3 6-7" />
+								</svg>
+							</span>
+							<div>
+								<h3 class="mb-2 text-lg! text-white">{s.title}</h3>
+								<p class="text-white/70">{s.body}</p>
+							</div>
+						</li>
+					))
+				}
+			</ul>
+		</div>
+	</div>
+</section>
+
+<style>
+	.node {
+		position: absolute;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		translate: -50% -50%;
+		border-radius: 1.6cqw;
+		border: 1px solid rgb(44 204 251 / 0.3);
+		background: linear-gradient(160deg, #16206a, #0d1350);
+		color: #5fd8ff;
+		box-shadow:
+			0 0 36px -8px rgb(44 204 251 / 0.55),
+			inset 0 1px 0 rgb(255 255 255 / 0.08);
+	}
+	/* Travelling pulse along each connector. */
+	.flow {
+		stroke-dasharray: 10 90;
+		animation: uv-flow 3.2s linear infinite;
+		opacity: 0.9;
+	}
+	@keyframes uv-flow {
+		from {
+			stroke-dashoffset: 100;
+		}
+		to {
+			stroke-dashoffset: 0;
+		}
+	}
+	@media (prefers-reduced-motion: reduce) {
+		.flow {
+			display: none;
+		}
+	}
+</style>

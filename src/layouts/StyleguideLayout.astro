@@ -1,0 +1,26 @@
+---
+import "@/styles/app.css";
+
+interface Props {
+	title: string;
+	description?: string;
+}
+
+const { title, description = "Utility Valet design system" } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="description" content={description} />
+		<meta name="robots" content="noindex" />
+		<link rel="icon" type="image/png" sizes="32x32" href="/brand/logo/favicon-32.png" />
+		<link rel="apple-touch-icon" href="/brand/logo/apple-touch-icon.png" />
+		<title>{title}</title>
+	</head>
+	<body>
+		<slot />
+	</body>
+</html>

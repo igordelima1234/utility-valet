@@ -5,13 +5,26 @@ import sitemap from "@astrojs/sitemap";
 
 import cloudflare from "@astrojs/cloudflare";
 
+import react from "@astrojs/react";
+import tailwindcss from "@tailwindcss/vite";
+
 // https://astro.build/config
 export default defineConfig({
-	site: "https://example.com",
-	integrations: [mdx(), sitemap()],
-	adapter: cloudflare({
-		platformProxy: {
-			enabled: true,
-		},
+  site: "https://utilityvalet.io",
+  integrations: [mdx(), sitemap(), react()],
+
+  // RVP was renamed Revenue Valet.
+  redirects: {
+    "/rvp": "/revenue-valet",
+  },
+
+  adapter: cloudflare({
+      platformProxy: {
+          enabled: true,
+      },
 	}),
+
+  vite: {
+    plugins: [tailwindcss()],
+  },
 });

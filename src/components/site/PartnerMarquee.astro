@@ -1,0 +1,111 @@
+---
+/*
+ * Auto-scrolling strip of partner logos.
+ * The list is rendered twice and the track slides by -50%, so the loop is seamless.
+ * Pauses on hover and via the toggle button; static and scrollable under reduced motion.
+ */
+
+type Partner = { src: string; name: string; scale?: number; invert?: boolean };
+
+// `scale` evens out logos whose artwork has lots of built-in padding.
+const partners: Partner[] = [
+	{ src: "anchor-pm.png", name: "Anchor Property Management" },
+	{ src: "coldwell-banker-pm.png", name: "Coldwell Banker Trusted Advisors" },
+	{ src: "mynd.jpg", name: "Mynd" },
+	{ src: "atwood.png", name: "Atwood Management" },
+	{ src: "latchel-logo.png", name: "Latchel" },
+	{ src: "blue-ribbon.png", name: "Blue Ribbon Property Management" },
+	{ src: "brick-vine.png", name: "Brick & Vine" },
+	{ src: "rpm.png", name: "Real Property Management Endeavor" },
+	{ src: "mcgraw-realtors.png", name: "McGraw Realtors" },
+	{ src: "compass.png", name: "Compass Property Management", invert: true },
+	{ src: "crestcore-realty.jpeg", name: "CrestCore Property Management" },
+	{ src: "minnix-pm.webp", name: "Minnix Property Management" },
+	{ src: "luna-properties-llc.jpg", name: "Luna Properties" },
+	{ src: "bg-realty.png", name: "BG Realty & Management" },
+	{ src: "mission-pm.png", name: "Mission Property Management" },
+	{ src: "cc-real-estate.png", name: "C&C Real Estate", scale: 1.15 },
+	{ src: "full-service.jpg", name: "Full Service Property Management" },
+	{ src: "cj-real-estate.png", name: "CJ Real Estate" },
+	{ src: "pam-t.png", name: "Pam T Property Management" },
+	{ src: "metropolitan.png", name: "Metropolitan", scale: 1.4 },
+	{ src: "valley-homes.png", name: "Valley Homes Realty & PM", scale: 1.3 },
+	{ src: "legacy-pm.jpg", name: "Legacy Property Management of Silicon Valley", scale: 1.8 },
+	{ src: "southern-dreams.jpeg", name: "Southern Dreams Realty", scale: 1.5 },
+	{ src: "metropolitan-mm.jpeg", name: "Metropolitan Management Co.", scale: 1.3 },
+	{ src: "texas-prime.png", name: "Texas Prime Real Estate", scale: 1.4 },
+];
+---
+
+<section aria-labelledby="partners-heading" class="border-b border-navy/8 bg-white py-12 md:py-16">
+	<div class="mx-auto flex max-w-site items-center justify-center gap-3 px-5 lg:px-8">
+		<h2 id="partners-heading" class="mb-0 text-center font-heading text-xs! font-medium tracking-widest text-navy/60 uppercase">
+			Trusted by property management partners
+		</h2>
+		<button
+			type="button"
+			data-marquee-toggle
+			aria-pressed="false"
+			class="flex size-7 items-center justify-center rounded-full text-navy/50 transition-colors hover:bg-accent hover:text-navy focus-visible:ring-[3px] focus-visible:ring-ring focus-visible:outline-none motion-reduce:hidden"
+		>
+			<span class="sr-only" data-label>Pause logo animation</span>
+			<svg data-icon="pause" viewBox="0 0 16 16" class="size-3.5 fill-current" aria-hidden="true"><rect x="3" y="2" width="3.5" height="12" rx="1"></rect><rect x="9.5" y="2" width="3.5" height="12" rx="1"></rect></svg>
+			<svg data-icon="play" viewBox="0 0 16 16" class="hidden size-3.5 fill-current" aria-hidden="true"><path d="M4 2.5v11a1 1 0 0 0 1.5.86l9-5.5a1 1 0 0 0 0-1.72l-9-5.5A1 1 0 0 0 4 2.5z"></path></svg>
+		</button>
+	</div>
+
+	<div
+		data-marquee
+		class="group/marquee mt-8 overflow-hidden [--logo-tint:#8fb4e6] [mask-image:linear-gradient(to_right,transparent,black_8%,black_92%,transparent)] motion-reduce:overflow-x-auto md:mt-10"
+	>
+		<div
+			class="flex w-max animate-marquee group-hover/marquee:[animation-play-state:paused] group-data-[paused]/marquee:[animation-play-state:paused] motion-reduce:animate-none"
+		>
+			{
+				[false, true].map((duplicate) => (
+					<ul
+						class:list={["flex shrink-0 items-center gap-x-12 pr-12 md:gap-x-16 md:pr-16", duplicate && "motion-reduce:hidden"]}
+						aria-hidden={duplicate ? "true" : undefined}
+					>
+						{partners.map((p) => (
+							<li class="group/logo relative isolate flex h-16 w-[132px] shrink-0 items-center justify-center overflow-hidden bg-white md:w-[152px]">
+								<img
+									src={`/brand/partners/${p.src}`}
+									alt={duplicate ? "" : p.name}
+									loading="eager"
+									fetchpriority="low"
+									decoding="async"
+									class:list={[
+										"max-h-14 max-w-full object-contain mix-blend-multiply brightness-[0.85] contrast-[1.4] grayscale transition duration-300 group-hover/logo:brightness-100 group-hover/logo:contrast-100 group-hover/logo:grayscale-0",
+										p.invert && "invert",
+									]}
+									style={p.scale ? `scale:${p.scale}` : undefined}
+								/>
+								{/* Duotone: screen-blending the tint turns dark ink blue and leaves white untouched. */}
+								<span
+									aria-hidden="true"
+									class="pointer-events-none absolute inset-0 bg-(--logo-tint) mix-blend-screen transition-opacity duration-300 group-hover/logo:opacity-0"
+								/>
+							</li>
+						))}
+					</ul>
+				))
+			}
+		</div>
+	</div>
+</section>
+
+<script>
+	document.querySelectorAll<HTMLButtonElement>("[data-marquee-toggle]").forEach((button) => {
+		const marquee = button.closest("section")?.querySelector<HTMLElement>("[data-marquee]");
+		if (!marquee) return;
+		button.addEventListener("click", () => {
+			const paused = button.getAttribute("aria-pressed") !== "true";
+			button.setAttribute("aria-pressed", String(paused));
+			marquee.toggleAttribute("data-paused", paused);
+			button.querySelector("[data-label]")!.textContent = paused ? "Play logo animation" : "Pause logo animation";
+			button.querySelector('[data-icon="pause"]')!.classList.toggle("hidden", paused);
+			button.querySelector('[data-icon="play"]')!.classList.toggle("hidden", !paused);
+		});
+	});
+</script>

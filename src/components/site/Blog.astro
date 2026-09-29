@@ -1,0 +1,67 @@
+---
+import { Button } from "@/components/ui/button";
+
+// Latest posts from the current blog. Slugs match the live WordPress URLs.
+const posts = [
+	{
+		title: "How Bulk Internet is Changing the SFR Market: Introducing Instanet",
+		href: "/how-bulk-internet-is-changing-the-sfr-market-introducing-instanet/",
+		image: "/brand/photos/team-1200.jpg",
+		tag: "Instanet",
+	},
+	{
+		title: "Simplify Your Move: How Utility Valet Saves You Time and Money",
+		href: "/simplify-your-move-how-utility-valet-saves-you-time-and-money/",
+		image: "/brand/photos/moving-couple-1200.jpg",
+		tag: "Residents",
+	},
+	{
+		title: "The Ultimate Guide to a Seamless Residential Move",
+		href: "/the-ultimate-guide-to-a-seamless-residential-move/",
+		image: "/brand/photos/team-1200.jpg",
+		tag: "Guides",
+	},
+];
+const author = { name: "Chiara Lisciotto", initials: "CL" };
+---
+
+<section class="pb-20 md:pb-28">
+	<div class="mx-auto max-w-site px-5 lg:px-8">
+		<div class="flex flex-wrap items-end justify-between gap-6">
+			<div>
+				<p class="mb-3 font-heading text-xs font-medium tracking-widest text-royal uppercase">The Blog</p>
+				<h2 class="mb-0">Keep up with the industry</h2>
+			</div>
+			<Button client:visible href="/blog" variant="secondary" icon="arrow">Explore the blog</Button>
+		</div>
+
+		<div class="mt-12 grid gap-10 md:grid-cols-3 md:gap-8">
+			{
+				posts.map((post) => (
+					<article class="group relative">
+						<div class="relative aspect-[16/10] overflow-hidden rounded-2xl bg-mist">
+							<img
+								src={post.image}
+								alt=""
+								loading="lazy"
+								class="size-full object-cover transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-105"
+							/>
+							<span class="absolute top-4 left-4 rounded-full bg-white/90 px-3 py-1 text-xs font-semibold text-navy backdrop-blur">
+								{post.tag}
+							</span>
+						</div>
+						<h3 class="mt-6 mb-0 text-xl! leading-snug! md:text-[1.375rem]!">
+							<a href={post.href} class="bg-[linear-gradient(currentColor,currentColor)] bg-[length:0%_2px] bg-[position:0_100%] bg-no-repeat transition-[background-size] duration-500 group-hover:bg-[length:100%_2px] after:absolute after:inset-0">
+								{post.title}
+							</a>
+						</h3>
+						<div class="mt-5 flex items-center gap-3 text-sm">
+							<span class="flex size-8 items-center justify-center rounded-full bg-ice font-heading text-[0.6875rem] text-royal">{author.initials}</span>
+							<span class="font-medium text-navy">{author.name}</span>
+						</div>
+					</article>
+				))
+			}
+		</div>
+	</div>
+</section>

@@ -1,0 +1,304 @@
+---
+import StyleguideLayout from "@/layouts/StyleguideLayout.astro";
+import Section from "@/components/styleguide/Section.astro";
+import { ButtonShowcase, DisplayShowcase, FormShowcase } from "@/components/styleguide/ComponentShowcase";
+import { ServiceChartsShowcase } from "@/components/styleguide/ServiceCharts";
+
+const nav = [
+	["logo", "Logo"],
+	["color", "Color"],
+	["gradients", "Gradients"],
+	["type", "Typography"],
+	["buttons", "Buttons"],
+	["forms", "Forms"],
+	["components", "Components"],
+	["dataviz", "Data viz"],
+	["shape", "Radius"],
+	["icons", "Icons"],
+	["imagery", "Imagery"],
+];
+
+const brand = [
+	{ name: "Navy", token: "navy", hex: "#050A4A", role: "Headings, body text, dark CTA", dark: true },
+	{ name: "Ink", token: "ink", hex: "#181A33", role: "Text on cyan, dark surfaces", dark: true },
+	{ name: "Cyan", token: "cyan", hex: "#2CCCFB", role: "Primary action, focus ring" },
+	{ name: "Cyan hover", token: "cyan-hover", hex: "#2CA8FB", role: "Primary hover" },
+	{ name: "Royal", token: "royal", hex: "#0E6DF9", role: "Links on light, eyebrows, icons", dark: true },
+	{ name: "Sky", token: "sky", hex: "#3399FF", role: "Supporting blue", dark: true },
+	{ name: "Steel", token: "steel", hex: "#708BB2", role: "Muted blue accents", dark: true },
+	{ name: "Violet", token: "violet", hex: "#CD3EF9", role: "Logo gradient start", dark: true },
+	{ name: "Lavender", token: "lavender", hex: "#D1A2FC", role: "Alternate button" },
+	{ name: "Ice", token: "ice", hex: "#DFF7FE", role: "Tinted panels, icon tiles" },
+	{ name: "Ice strong", token: "ice-strong", hex: "#BEF0FE", role: "Stronger tint" },
+	{ name: "Cloud", token: "cloud", hex: "#F4F4F4", role: "Muted section background" },
+	{ name: "Gray", token: "gray", hex: "#838486", role: "Decorative only; fails AA for text", dark: true },
+];
+
+const semantic = [
+	["background", "bg-background"],
+	["foreground", "bg-foreground"],
+	["primary", "bg-primary"],
+	["secondary", "bg-secondary"],
+	["muted", "bg-muted"],
+	["muted-foreground", "bg-muted-foreground"],
+	["accent", "bg-accent"],
+	["border", "bg-border"],
+	["input", "bg-input"],
+	["destructive", "bg-destructive"],
+];
+
+const typeScale = [
+	{ tag: "h1", label: "H1", spec: "Unbounded 500 · 32px → 48px · 1.2", text: "Turning on every American home" },
+	{ tag: "h2", label: "H2", spec: "Unbounded 500 · 24px → 36px · 1.2", text: "Utilities, handled for you" },
+	{ tag: "h3", label: "H3", spec: "Unbounded 500 · 20px → 28px · 1.2", text: "One call connects everything" },
+	{ tag: "h4", label: "H4", spec: "Unbounded 500 · 16px → 20px · 1.2", text: "Electricity, water and internet" },
+	{ tag: "h5", label: "H5", spec: "Unbounded 500 · 16px · 1.2", text: "Resident support" },
+];
+
+const radii = [
+	["sm", "rounded-sm", "8px"],
+	["md", "rounded-md", "10px"],
+	["lg", "rounded-lg", "12px · base (--object-radius)"],
+	["xl", "rounded-xl", "16px · cards"],
+	["2xl", "rounded-2xl", "24px · large media"],
+	["full", "rounded-full", "pill · buttons"],
+];
+
+const featureIcons = ["36", "41", "43", "48", "52", "54"];
+
+const partners = [
+	"anchor-pm.png", "atwood.png", "blue-ribbon.png", "brick-vine.png", "cc-real-estate.png",
+	"cj-real-estate.png", "coldwell-banker-pm.png", "crestcore-realty.jpeg", "latchel-logo.png",
+	"legacy-pm.jpg", "luna-properties-llc.jpg", "mcgraw-realtors.png", "metropolitan.png",
+	"minnix-pm.webp", "mission-pm.png", "mynd.jpg", "pam-t.png", "rpm.png", "compass.png",
+	"bg-realty.png", "valley-homes.png", "southern-dreams.jpeg", "metropolitan-mm.jpeg",
+	"full-service.jpg", "texas-prime.png",
+];
+
+const testimonials = [
+	"1-keirra", "2-william", "3-cheri", "4-william-gibson", "5-todd", "6-syed",
+	"7-emma", "8-cortnee", "9-makayla", "10-melany-spanish", "11-seann", "12-marquetta", "13-stephanie",
+];
+---
+
+<StyleguideLayout title="Styleguide · Utility Valet">
+	<header class="relative overflow-hidden bg-gradient-sky">
+		<div class="mx-auto max-w-site px-4 pt-6 pb-20 md:px-8 md:pb-28">
+			<img src="/brand/logo/utility-valet-logo.png" alt="Utility Valet" class="h-12 w-auto md:h-14" />
+			<div class="mt-16 max-w-2xl md:mt-24">
+				<p class="mb-3 font-heading text-xs font-medium tracking-widest text-navy/70 uppercase">Design system · v0.1</p>
+				<h1>Utility Valet styleguide</h1>
+				<p class="mt-4 text-lg text-navy/80">
+					Foundations and shadcn/ui components for the redesign, built from the tokens on the current utilityvalet.io.
+				</p>
+			</div>
+		</div>
+	</header>
+
+	<nav class="sticky top-0 z-20 border-b bg-background/90 backdrop-blur" aria-label="Styleguide sections">
+		<ul class="mx-auto flex max-w-site gap-1 overflow-x-auto px-4 py-2 pr-12 [mask-image:linear-gradient(to_right,black_85%,transparent)] md:px-8 lg:[mask-image:none] lg:pr-8">
+			{nav.map(([id, label]) => (
+				<li>
+					<a href={`#${id}`} class="block rounded-full px-3 py-1.5 text-sm whitespace-nowrap text-navy/80 transition-colors hover:bg-accent hover:text-navy">{label}</a>
+				</li>
+			))}
+		</ul>
+	</nav>
+
+	<main class="mx-auto max-w-site px-4 md:px-8">
+		<Section id="logo" eyebrow="01 · Brand" title="Logo" description="Use the navy wordmark on light backgrounds and the white wordmark on gradients or photos. The house mark alone is for favicons, app icons and tight spaces.">
+			<div class="grid gap-6 md:grid-cols-3">
+				<figure class="grid min-w-0 grid-cols-1 gap-3">
+					<div class="flex aspect-[4/3] items-center justify-center rounded-xl border bg-white p-10 md:p-6 lg:p-10">
+						<img src="/brand/logo/utility-valet-logo.png" alt="Utility Valet logo, navy wordmark" class="max-h-24 w-auto max-w-full object-contain" />
+					</div>
+					<figcaption class="text-sm text-muted-foreground"><strong class="text-foreground">Primary</strong> · utility-valet-logo.png</figcaption>
+				</figure>
+				<figure class="grid min-w-0 grid-cols-1 gap-3">
+					<div class="flex aspect-[4/3] items-center justify-center rounded-xl bg-gradient-deep p-10 md:p-6 lg:p-10">
+						<img src="/brand/logo/utility-valet-logo-white.png" alt="Utility Valet logo, white wordmark" class="max-h-24 w-auto max-w-full object-contain" />
+					</div>
+					<figcaption class="text-sm text-muted-foreground"><strong class="text-foreground">Reversed</strong> · utility-valet-logo-white.png</figcaption>
+				</figure>
+				<figure class="grid min-w-0 grid-cols-1 gap-3">
+					<div class="flex aspect-[4/3] items-center justify-center rounded-xl bg-ice p-10 md:p-6 lg:p-10">
+						<img src="/brand/logo/utility-valet-mark.png" alt="Utility Valet house mark" class="max-h-28 w-auto max-w-full object-contain" />
+					</div>
+					<figcaption class="text-sm text-muted-foreground"><strong class="text-foreground">Mark</strong> · utility-valet-mark.png</figcaption>
+				</figure>
+			</div>
+		</Section>
+
+		<Section id="color" eyebrow="02 · Foundations" title="Color" description="Brand colors are available as Tailwind utilities (bg-navy, text-royal, …). Components should use the semantic tokens below so the theme can change in one place.">
+			<h3 class="mb-5 text-lg! md:text-xl!">Brand palette</h3>
+			<div class="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
+				{brand.map((c) => (
+					<div class="overflow-hidden rounded-xl border">
+						<div class="flex h-24 items-end p-3" style={`background:${c.hex}`}>
+							<span class:list={["font-heading text-xs font-medium", c.dark ? "text-white" : "text-navy"]}>{c.hex}</span>
+						</div>
+						<div class="p-3 text-sm leading-snug">
+							<div class="font-medium">{c.name}</div>
+							<code class="text-xs text-royal">{c.token}</code>
+							<div class="mt-1 text-xs text-muted-foreground">{c.role}</div>
+						</div>
+					</div>
+				))}
+			</div>
+
+			<h3 class="mt-12 mb-5 text-lg! md:text-xl!">Semantic tokens (shadcn)</h3>
+			<div class="grid grid-cols-2 gap-3 sm:grid-cols-5">
+				{semantic.map(([name, cls]) => (
+					<div class="flex items-center gap-3 rounded-lg border p-2">
+						<div class:list={["size-10 shrink-0 rounded-md border", cls]}></div>
+						<code class="truncate text-xs">{name}</code>
+					</div>
+				))}
+			</div>
+		</Section>
+
+		<Section id="gradients" eyebrow="02 · Foundations" title="Gradients" description="The sky gradient is the signature hero background. Use deep for dark bands and CTAs, and keep the logo gradient for accents only.">
+			<div class="grid gap-6 md:grid-cols-3">
+				<div>
+					<div class="h-40 rounded-xl bg-gradient-sky"></div>
+					<p class="mt-3 text-sm"><strong>Sky</strong> · <code class="text-royal">bg-gradient-sky</code></p>
+				</div>
+				<div>
+					<div class="h-40 rounded-xl bg-gradient-deep"></div>
+					<p class="mt-3 text-sm"><strong>Deep</strong> · <code class="text-royal">bg-gradient-deep</code></p>
+				</div>
+				<div>
+					<div class="h-40 rounded-xl bg-gradient-logo"></div>
+					<p class="mt-3 text-sm"><strong>Logo</strong> · <code class="text-royal">bg-gradient-logo</code></p>
+				</div>
+			</div>
+		</Section>
+
+		<Section id="type" eyebrow="02 · Foundations" title="Typography" description="Unbounded for headings, DM Sans for everything else (including buttons). Both are self-hosted from @fontsource (variable). The live site loads them from Adobe Typekit.">
+			<div class="mb-10 grid gap-6 md:grid-cols-2">
+				<div class="rounded-xl border p-6">
+					<p class="text-sm text-muted-foreground">Display · font-heading</p>
+					<p class="mt-2 font-heading text-5xl font-medium">Aa</p>
+					<p class="mt-3 font-heading">Unbounded</p>
+					<p class="text-sm text-muted-foreground">Weight 500 for headings</p>
+				</div>
+				<div class="rounded-xl border p-6">
+					<p class="text-sm text-muted-foreground">Text · font-sans</p>
+					<p class="mt-2 text-5xl font-medium">Aa</p>
+					<p class="mt-3 font-medium">DM Sans</p>
+					<p class="text-sm text-muted-foreground">Weights 400 / 600 · line-height 1.8</p>
+				</div>
+			</div>
+			<div class="divide-y rounded-xl border">
+				{typeScale.map((t) => {
+					const Tag = t.tag;
+					return (
+						<div class="grid gap-2 p-6 md:grid-cols-[180px_1fr] md:items-baseline">
+							<div class="text-sm text-muted-foreground"><strong class="text-foreground">{t.label}</strong><br />{t.spec}</div>
+							<Tag class="mb-0">{t.text}</Tag>
+						</div>
+					);
+				})}
+				<div class="grid gap-2 p-6 md:grid-cols-[180px_1fr] md:items-baseline">
+					<div class="text-sm text-muted-foreground"><strong class="text-foreground">Eyebrow</strong><br />Unbounded 500 · 12px · caps</div>
+					<p class="font-heading text-xs font-medium tracking-widest text-royal uppercase">How it works</p>
+				</div>
+				<div class="grid gap-2 p-6 md:grid-cols-[180px_1fr] md:items-baseline">
+					<div class="text-sm text-muted-foreground"><strong class="text-foreground">Lead</strong><br />DM Sans 400 · 18px</div>
+					<p class="max-w-2xl text-lg">Utility Valet offers a simple yet powerful solution to one of the biggest pain points of moving: connecting utilities and services.</p>
+				</div>
+				<div class="grid gap-2 p-6 md:grid-cols-[180px_1fr] md:items-baseline">
+					<div class="text-sm text-muted-foreground"><strong class="text-foreground">Body</strong><br />DM Sans 400 · 16px · 1.8</div>
+					<p class="max-w-2xl">We coordinate electricity, water, gas, internet and more so residents walk into a home that's ready on day one. <a href="#type" class="text-royal underline underline-offset-4">Inline link</a> and <strong class="font-semibold">semibold emphasis</strong>.</p>
+				</div>
+				<div class="grid gap-2 p-6 md:grid-cols-[180px_1fr] md:items-baseline">
+					<div class="text-sm text-muted-foreground"><strong class="text-foreground">Small</strong><br />DM Sans 400 · 14px</div>
+					<p class="text-sm text-muted-foreground">Supporting copy, captions and form help text.</p>
+				</div>
+			</div>
+		</Section>
+
+		<Section id="buttons" eyebrow="03 · Components" title="Buttons" description="The switch-on button. Every button can carry a round knob; on hover or focus it floods outward and fills the button, like power turning on. Pressing gives a spring response (Motion). Label set in DM Sans 600.">
+			<ButtonShowcase client:load />
+		</Section>
+
+		<Section id="forms" eyebrow="03 · Components" title="Form elements" description="Fields are 44px tall with a 12px radius. The focus ring uses brand cyan.">
+			<FormShowcase client:load />
+		</Section>
+
+		<Section id="components" eyebrow="03 · Components" title="Display & feedback" description="A starting set of shadcn/ui components with brand tokens applied. Add more with npx shadcn@latest add <name>.">
+			<DisplayShowcase client:load />
+		</Section>
+
+		<Section id="dataviz" eyebrow="03 · Components" title="Service highlights" description="One glanceable card per resident service: a headline number, one sentence, and one simple animated picture in the service's own accent color. Animations play once when scrolled into view and are skipped under reduced motion. All figures are sample data.">
+			<ServiceChartsShowcase client:visible />
+		</Section>
+
+		<Section id="shape" eyebrow="02 · Foundations" title="Radius" description="The base radius is 12px, matching the site's --object-radius. Buttons are always full pills.">
+			<div class="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
+				{radii.map(([name, cls, px]) => (
+					<div>
+						<div class:list={["h-24 border-2 border-cyan bg-ice", cls]}></div>
+						<p class="mt-2 text-sm"><code class="text-royal">{cls}</code></p>
+						<p class="text-xs text-muted-foreground">{px}</p>
+					</div>
+				))}
+			</div>
+		</Section>
+
+		<Section id="icons" eyebrow="04 · Assets" title="Icons" description="The feature illustrations are pulled from the current site. Use lucide-react for interface icons (shadcn's default set).">
+			<div class="grid grid-cols-3 gap-4 sm:grid-cols-6">
+				{featureIcons.map((n) => (
+					<div class="flex aspect-square items-center justify-center rounded-xl border bg-white p-5">
+						<img src={`/brand/icons/feature-${n}.svg`} alt="" class="max-h-full w-auto" loading="lazy" />
+					</div>
+				))}
+			</div>
+			<div class="mt-4 flex flex-wrap gap-4">
+				<div class="flex items-center gap-3 rounded-xl border px-4 py-3">
+					<img src="/brand/icons/valet-arrow.svg" alt="" class="h-4 w-auto" />
+					<code class="text-xs">valet-arrow.svg</code>
+				</div>
+				<div class="flex items-center gap-3 rounded-xl border bg-navy px-4 py-3">
+					<img src="/brand/icons/white-arrow.svg" alt="" class="h-4 w-auto" />
+					<code class="text-xs text-white">white-arrow.svg</code>
+				</div>
+				<div class="flex items-center gap-3 rounded-xl border px-4 py-3">
+					<img src="/brand/icons/quote.svg" alt="" class="h-6 w-auto" />
+					<code class="text-xs">quote.svg</code>
+				</div>
+			</div>
+		</Section>
+
+		<Section id="imagery" eyebrow="04 · Assets" title="Imagery" description="All images were pulled from utilityvalet.io into /public/brand. Photos use a 16–24px radius. The house-frame crop is a signature brand motif.">
+			<div class="grid gap-6 md:grid-cols-3">
+				<img src="/brand/backgrounds/hero-house-photo.png" alt="Resident smiling at her phone among moving boxes, framed in a house shape" class="w-full rounded-2xl bg-gradient-sky object-contain p-6" loading="lazy" />
+				<img src="/brand/photos/team.jpg" alt="Utility Valet team" class="aspect-[4/5] w-full rounded-2xl object-cover" loading="lazy" />
+				<img src="/brand/photos/living-room.png" alt="The Utility Valet Living Room" class="aspect-[4/5] w-full rounded-2xl object-cover" loading="lazy" />
+			</div>
+
+			<h3 class="mt-12 mb-5 text-lg! md:text-xl!">Testimonial video stills</h3>
+			<div class="grid grid-cols-3 gap-3 sm:grid-cols-5 lg:grid-cols-7">
+				{testimonials.map((t) => (
+					<img src={`/brand/testimonials/review-${t}.jpg`} alt="" class="aspect-[9/16] w-full rounded-lg object-cover" loading="lazy" />
+				))}
+			</div>
+
+			<h3 class="mt-12 mb-5 text-lg! md:text-xl!">Partner logos</h3>
+			<div class="grid grid-cols-2 gap-3 sm:grid-cols-4 lg:grid-cols-5">
+				{partners.map((p) => (
+					<div class:list={["flex h-24 items-center justify-center rounded-lg border p-4", p === "compass.png" ? "bg-navy" : "bg-white"]}>
+						<img src={`/brand/partners/${p}`} alt={p.replace(/\.\w+$/, "").replace(/-/g, " ")} class="max-h-full max-w-full object-contain" loading="lazy" />
+					</div>
+				))}
+			</div>
+		</Section>
+	</main>
+
+	<footer class="bg-gradient-deep">
+		<div class="mx-auto flex max-w-site flex-wrap items-center justify-between gap-4 px-4 py-10 md:px-8">
+			<img src="/brand/logo/utility-valet-logo-white.png" alt="Utility Valet" class="h-10 w-auto" />
+			<p class="text-sm text-white/70">Styleguide · internal reference · see docs/design-guide.md</p>
+		</div>
+	</footer>
+</StyleguideLayout>

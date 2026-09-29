@@ -1,0 +1,78 @@
+---
+import LivingRoomCover from "@/components/site/LivingRoomCover.astro";
+
+const benefits = [
+	{
+		icon: "feature-48",
+		tint: "bg-ice-strong",
+		title: "Earn extra through revenue sharing",
+		body: "Partnering with Utility Valet simplifies utility and service connections while creating a hassle-free revenue stream for your property, enhancing both efficiency and resident experience.",
+	},
+	{
+		icon: "feature-52",
+		tint: "bg-ice",
+		title: "Save time and effort for your staff",
+		body: "Eliminate the hassle of utility setups. Utility Valet handles it all, freeing your staff to focus on higher-priority tasks and boosting operational efficiency.",
+	},
+	{
+		icon: "feature-54",
+		tint: "bg-[#ebe9ff]",
+		title: "Make life easier for your residents",
+		body: "With over 1,700 resident reviews, we take pride in making move-ins stress-free. Our dedicated service ensures residents feel supported from day one, leading to happier residents and lower turnover rates.",
+	},
+];
+
+const YOUTUBE_ID = "uMPjCjfpBFU";
+---
+
+<section class="py-20 md:py-28">
+	<div class="mx-auto max-w-site px-5 lg:px-8">
+		<div class="max-w-2xl">
+			<p class="mb-3 font-heading text-xs font-medium tracking-widest text-royal uppercase">For property managers</p>
+			<h2 class="mb-0">Why partner with us?</h2>
+		</div>
+
+		<div class="mt-12 grid gap-10 md:mt-16 md:grid-cols-3 md:gap-8 lg:gap-12">
+			{
+				benefits.map((b) => (
+					<div class="border-t border-navy/10 pt-8">
+						<div class:list={["flex size-16 items-center justify-center rounded-2xl", b.tint]}>
+							<img src={`/brand/icons/${b.icon}.svg`} alt="" class="size-11" loading="lazy" />
+						</div>
+						<h3 class="mt-6 mb-3 text-xl! md:text-[1.375rem]!">{b.title}</h3>
+						<p class="text-muted-foreground">{b.body}</p>
+					</div>
+				))
+			}
+		</div>
+
+		<!-- Living Room video: poster first, YouTube loads only on play -->
+		<div data-video-facade class="group relative mt-16 aspect-video overflow-hidden rounded-3xl bg-gradient-sky md:mt-20">
+			<LivingRoomCover class="absolute inset-0 size-full" />
+			<button
+				type="button"
+				data-youtube-id={YOUTUBE_ID}
+				class="absolute inset-0 rounded-3xl focus-visible:ring-4 focus-visible:ring-royal focus-visible:ring-inset focus-visible:outline-none"
+				aria-label="Play video: The Utility Valet Living Room"
+			>
+			</button>
+		</div>
+	</div>
+</section>
+
+<script>
+	document.querySelectorAll<HTMLButtonElement>("[data-youtube-id]").forEach((button) => {
+		button.addEventListener("click", () => {
+			const facade = button.closest<HTMLElement>("[data-video-facade]");
+			if (!facade) return;
+			const iframe = document.createElement("iframe");
+			iframe.src = `https://www.youtube-nocookie.com/embed/${button.dataset.youtubeId}?autoplay=1&rel=0`;
+			iframe.title = "The Utility Valet Living Room";
+			iframe.allow = "autoplay; encrypted-media; picture-in-picture; fullscreen";
+			iframe.allowFullscreen = true;
+			iframe.className = "absolute inset-0 size-full";
+			facade.replaceChildren(iframe);
+			iframe.focus();
+		});
+	});
+</script>

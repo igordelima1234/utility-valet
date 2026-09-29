@@ -1,0 +1,38 @@
+---
+import DemoForm from "@/components/site/revenue-valet/DemoForm";
+import { PHONE } from "@/components/site/SiteNav";
+
+interface Props {
+	/** What the demo is for; also sent with the submission. */
+	service: string;
+	heading: string;
+	intro: string;
+}
+const { service, heading, intro } = Astro.props;
+---
+
+<section id="demo" class="scroll-mt-24 px-3 md:px-4">
+	<div class="relative isolate overflow-hidden rounded-[2rem] bg-[#0b1142] px-5 py-16 md:px-8 md:py-24">
+		<div
+			class="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(55%_45%_at_15%_0%,rgb(14_109_249/0.4),transparent_70%),radial-gradient(40%_40%_at_100%_100%,rgb(205_62_249/0.18),transparent_70%)]"
+			aria-hidden="true"
+		>
+		</div>
+
+		<div class="mx-auto grid max-w-site items-center gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16">
+			<div class="text-white">
+				<p class="mb-3 font-heading text-xs font-medium tracking-widest text-cyan uppercase">Book a demo</p>
+				<h2 class="mb-5 text-white">{heading}</h2>
+				<p class="max-w-md text-lg text-white/70">{intro}</p>
+				<p class="mt-8 text-white/70">
+					Prefer to talk now? Call{" "}
+					<a href={PHONE.href} class="font-semibold text-cyan hover:underline">{PHONE.display}</a>
+				</p>
+			</div>
+
+			<div class="rounded-3xl bg-white p-6 shadow-[0_40px_80px_-40px_rgb(0_0_0/0.6)] sm:p-8 md:p-10">
+				<DemoForm client:visible service={service} />
+			</div>
+		</div>
+	</div>
+</section>

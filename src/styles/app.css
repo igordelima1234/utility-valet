@@ -1,0 +1,236 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "@fontsource-variable/unbounded";
+@import "@fontsource-variable/dm-sans";
+
+@custom-variant dark (&:is(.dark *));
+
+/*
+ * Utility Valet design tokens.
+ * Brand values are pulled from the live site (utilityvalet.io theme CSS).
+ * See docs/design-guide.md for usage rules.
+ */
+:root {
+  /* ── Brand palette ─────────────────────────────── */
+  --uv-navy: #050a4a;        /* site: --light-black — headings, body text, dark CTA */
+  --uv-ink: #181a33;         /* site: --dark — text on cyan buttons, dark surfaces */
+  --uv-black: #010101;       /* site: --black */
+  --uv-cyan: #2cccfb;        /* site: --primary  hsl(194 96% 58%) */
+  --uv-cyan-hover: #2ca8fb;  /* site: --primary-hover  hsl(204 96% 58%) */
+  --uv-royal: #0e6df9;       /* site: --royal */
+  --uv-sky: #3399ff;         /* site: --bright-blue */
+  --uv-steel: #708bb2;       /* site: --med-blue */
+  --uv-violet: #cd3ef9;      /* site: --pink2 — logo gradient start */
+  --uv-lavender: #d1a2fc;    /* site: --accent — alt button */
+  --uv-ice: #dff7fe;         /* light cyan tint */
+  --uv-ice-strong: #bef0fe;  /* stronger cyan tint */
+  --uv-cloud: #f4f4f4;       /* site: --offwhite */
+  --uv-mist: #f6f8fc;        /* cool off-white for split-hero panels */
+  --uv-gray: #838486;        /* site: --medium */
+  --uv-line: #eeeeee;        /* most-used border colour on the site */
+
+  /* ── Brand gradients ───────────────────────────── */
+  --uv-gradient-sky: linear-gradient(90deg, #b5dcf7 0%, #7fd0f5 30%, #2cc3f0 55%, #1a9fe0 72%, #184f9c 100%);
+  --uv-gradient-deep: radial-gradient(120% 90% at 50% 0%, #0e7af9 0%, #0b3fc4 45%, #050a4a 100%);
+  --uv-gradient-logo: linear-gradient(135deg, #cd3ef9 0%, #0e6cf7 100%);
+  --uv-gradient-dusk: linear-gradient(90deg, #e2c8fc 0%, #b98af8 25%, #8a5cf6 48%, #4f5ef5 70%, #1e3aa8 100%);
+
+  /* ── shadcn semantic tokens ────────────────────── */
+  --radius: 0.75rem; /* site: --object-radius 12px */
+
+  --background: #ffffff;
+  --foreground: var(--uv-navy);
+  --card: #ffffff;
+  --card-foreground: var(--uv-navy);
+  --popover: #ffffff;
+  --popover-foreground: var(--uv-navy);
+  --primary: var(--uv-cyan);
+  --primary-foreground: var(--uv-ink);
+  --secondary: var(--uv-navy);
+  --secondary-foreground: #ffffff;
+  --muted: var(--uv-cloud);
+  --muted-foreground: #5a5e7a; /* darkened from --uv-gray to pass WCAG AA on white */
+  --accent: var(--uv-ice);
+  --accent-foreground: var(--uv-navy);
+  --destructive: #dc2626;
+  --border: var(--uv-line);
+  --input: #d3d3d3;
+  --ring: var(--uv-cyan);
+
+  --chart-1: var(--uv-cyan);
+  --chart-2: var(--uv-royal);
+  --chart-3: var(--uv-violet);
+  --chart-4: var(--uv-lavender);
+  --chart-5: var(--uv-steel);
+}
+
+.dark {
+  --background: var(--uv-navy);
+  --foreground: #ffffff;
+  --card: var(--uv-ink);
+  --card-foreground: #ffffff;
+  --popover: var(--uv-ink);
+  --popover-foreground: #ffffff;
+  --primary: var(--uv-cyan);
+  --primary-foreground: var(--uv-ink);
+  --secondary: #ffffff;
+  --secondary-foreground: var(--uv-navy);
+  --muted: #11164f;
+  --muted-foreground: #aab3d6;
+  --accent: #141b63;
+  --accent-foreground: #ffffff;
+  --destructive: #f87171;
+  --border: rgb(255 255 255 / 0.12);
+  --input: rgb(255 255 255 / 0.2);
+  --ring: var(--uv-cyan);
+}
+
+@theme inline {
+  --font-sans: "DM Sans Variable", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-heading: "Unbounded Variable", "Helvetica Neue", Helvetica, Arial, sans-serif;
+
+  --color-navy: var(--uv-navy);
+  --color-ink: var(--uv-ink);
+  --color-cyan: var(--uv-cyan);
+  --color-cyan-hover: var(--uv-cyan-hover);
+  --color-royal: var(--uv-royal);
+  --color-sky: var(--uv-sky);
+  --color-steel: var(--uv-steel);
+  --color-violet: var(--uv-violet);
+  --color-lavender: var(--uv-lavender);
+  --color-ice: var(--uv-ice);
+  --color-ice-strong: var(--uv-ice-strong);
+  --color-cloud: var(--uv-cloud);
+  --color-mist: var(--uv-mist);
+  --color-gray: var(--uv-gray);
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 12px);
+
+  --container-site: 1350px; /* site: --container-width */
+}
+
+@utility bg-gradient-sky {
+  background-image: var(--uv-gradient-sky);
+}
+@utility bg-gradient-dusk {
+  background-image: var(--uv-gradient-dusk);
+}
+@utility bg-gradient-deep {
+  background-image: var(--uv-gradient-deep);
+}
+@utility bg-gradient-logo {
+  background-image: var(--uv-gradient-logo);
+}
+@utility text-gradient-logo {
+  background-image: var(--uv-gradient-logo);
+  background-clip: text;
+  color: transparent;
+}
+
+/* Purple ripple tile behind service icons; icons are white. */
+@utility icon-tile {
+  color: #fff;
+  background: url("/brand/backgrounds/icon-ripple.svg") center / cover;
+  box-shadow:
+    inset 0 0 0 1px rgb(255 255 255 / 0.2),
+    0 10px 24px -10px rgb(205 62 249 / 0.6);
+  transition:
+    box-shadow 0.3s,
+    scale 0.3s;
+}
+
+/* Film grain over gradient panels. Needs a positioned parent. */
+@utility grain {
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    opacity: 0.22;
+    mix-blend-mode: overlay;
+  }
+}
+
+/* Seamless marquee: the track holds two copies and slides by half its width. */
+@keyframes uv-marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+@utility animate-marquee {
+  animation: uv-marquee var(--marquee-duration, 90s) linear infinite;
+}
+
+/* Rotating logo-gradient border (hero button). */
+@property --uv-angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+@keyframes uv-spin {
+  to {
+    --uv-angle: 360deg;
+  }
+}
+@utility border-gradient-spin {
+  border: 2px solid transparent;
+  background:
+    linear-gradient(var(--uv-navy), var(--uv-navy)) padding-box,
+    conic-gradient(from var(--uv-angle), var(--uv-violet), var(--uv-cyan), var(--uv-royal), var(--uv-violet)) border-box;
+  animation: uv-spin 4s linear infinite;
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    line-height: 1.8;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-heading font-medium text-balance;
+    line-height: 1.2;
+  }
+  /* Site type scale: mobile → ≥768px */
+  h1 { @apply text-[2rem] md:text-5xl; }
+  h2 { @apply text-2xl md:text-4xl; }
+  h3 { @apply text-xl md:text-[1.75rem]; }
+  h4 { @apply text-base md:text-xl; }
+  h5, h6 { @apply text-base; }
+}

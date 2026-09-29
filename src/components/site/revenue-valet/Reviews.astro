@@ -1,0 +1,81 @@
+---
+import { valetReviews } from "@/data/revenue-valet";
+import { REVIEW_COUNT, REVIEWS_URL } from "@/data/testimonials";
+
+const avatars = ["1-keirra", "3-cheri", "6-syed", "9-makayla"];
+---
+
+<section class="bg-linear-to-b from-mist from-70% to-white py-20 md:py-28">
+	<div class="mx-auto max-w-site px-5 lg:px-8">
+		<div class="mx-auto max-w-2xl text-center">
+			<p class="mb-3 font-heading text-xs font-medium tracking-widest text-royal uppercase">Testimonials</p>
+			<h2 class="mb-4">Here’s what residents say</h2>
+			<p class="text-lg text-muted-foreground">
+				Our white glove approach at Utility Valet, in their own words, from
+				<a
+					href={REVIEWS_URL}
+					target="_blank"
+					rel="noopener noreferrer"
+					class="font-semibold text-navy underline decoration-navy/30 underline-offset-2 transition-colors hover:decoration-navy"
+					>over {REVIEW_COUNT} reviews</a
+				>.
+			</p>
+		</div>
+
+		<div class="mt-12 gap-5 sm:columns-2 md:mt-16 lg:columns-3">
+			{
+				valetReviews.map((r, i) => (
+					<>
+						<figure class="mb-5 break-inside-avoid rounded-3xl bg-white p-7 ring-1 ring-navy/6 transition-shadow duration-300 hover:shadow-[0_30px_60px_-30px_rgb(14_109_249/0.35)] md:p-8">
+							<img src="/brand/icons/quote.svg" alt="" class="h-6 w-auto" loading="lazy" />
+							<blockquote class="mt-5">
+								<p class="font-heading text-[1.0625rem] leading-snug text-navy">{r.quote}</p>
+							</blockquote>
+							<figcaption class="mt-6 flex items-center gap-3 border-t border-navy/8 pt-5 text-sm">
+								<img src="/brand/logo/utility-valet-mark.png" alt="" class="size-8 rounded-full bg-ice p-1" loading="lazy" />
+								<span class="text-muted-foreground">
+									Resident review of <span class="font-semibold text-navy">{r.valet}</span>, Utility Valet
+								</span>
+							</figcaption>
+						</figure>
+						{i === 2 && (
+							<div class="grain relative isolate mb-5 break-inside-avoid overflow-hidden rounded-3xl bg-gradient-sky p-8">
+								<div class="flex -space-x-2.5">
+									{avatars.map((a) => (
+										<img
+											src={`/brand/testimonials/review-${a}.jpg`}
+											alt=""
+											class="size-10 rounded-full object-cover object-top ring-2 ring-white/80"
+											width="40"
+											height="40"
+											loading="lazy"
+										/>
+									))}
+								</div>
+								<div class="mt-6 flex gap-0.5 text-navy" role="img" aria-label="5 out of 5 stars">
+									{Array.from({ length: 5 }).map(() => (
+										<svg viewBox="0 0 20 20" class="size-5 fill-current" aria-hidden="true">
+											<path d="M10 1.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L10 14.9l-5.2 2.7 1-5.8L1.5 7.7l5.9-.9z" />
+										</svg>
+									))}
+								</div>
+								<p class="mt-3 font-heading text-2xl leading-tight font-medium text-navy">Over {REVIEW_COUNT} reviews from real residents</p>
+								<a
+									href={REVIEWS_URL}
+									target="_blank"
+									rel="noopener noreferrer"
+									class="mt-5 inline-flex items-center gap-1.5 text-sm font-semibold text-navy underline decoration-navy/30 underline-offset-4 transition-colors hover:decoration-navy"
+								>
+									Read them all on Birdeye
+									<svg viewBox="0 0 20 20" class="size-4 fill-none stroke-current" stroke-width="1.8" aria-hidden="true">
+										<path d="M7 13l6-6M8 7h5v5" stroke-linecap="round" stroke-linejoin="round" />
+									</svg>
+								</a>
+							</div>
+						)}
+					</>
+				))
+			}
+		</div>
+	</div>
+</section>

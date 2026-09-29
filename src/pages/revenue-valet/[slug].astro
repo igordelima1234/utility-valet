@@ -1,0 +1,120 @@
+---
+import SiteLayout from "@/layouts/SiteLayout.astro";
+import PulseRings from "@/components/site/PulseRings.astro";
+import DemoSection from "@/components/site/revenue-valet/DemoSection.astro";
+import OfferViz from "@/components/site/revenue-valet/OfferViz.astro";
+import { serviceIcons } from "@/components/site/revenue-valet/icons";
+import { Button } from "@/components/ui/button";
+import { offerings, servicePages, type ServicePage } from "@/data/revenue-valet";
+
+export function getStaticPaths() {
+	return servicePages.map((page) => ({ params: { slug: page.slug }, props: { page } }));
+}
+
+const { page } = Astro.props as { page: ServicePage };
+const service = offerings[page.key];
+const Icon = serviceIcons[page.key];
+---
+
+<SiteLayout title={`${service.title} · Revenue Valet`} description={service.body} cta={false}>
+	<!-- Hero -->
+	<section class="grid lg:grid-cols-2">
+		<div class="flex items-center bg-mist px-5 py-14 sm:px-10 sm:py-16 lg:py-20 lg:pr-12 lg:pl-16 xl:pl-24 2xl:pl-32">
+			<div class="w-full max-w-[640px]">
+				<nav aria-label="Breadcrumb" class="mb-10 text-[13px] text-navy/45">
+					<ol class="flex flex-wrap items-center gap-1.5">
+						<li>
+							<a href="/revenue-valet" class="transition-colors hover:text-navy">Revenue Valet</a>
+						</li>
+						<li aria-hidden="true">
+							<svg viewBox="0 0 16 16" class="size-3" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+								<path d="m6 3.5 4.5 4.5L6 12.5" />
+							</svg>
+						</li>
+						<li aria-current="page">{service.title}</li>
+					</ol>
+				</nav>
+
+				<p class="mb-5 inline-flex items-center gap-3 font-heading text-xs font-medium tracking-widest text-royal uppercase">
+					<span class="icon-tile flex size-9 items-center justify-center rounded-xl">
+						<Icon className="size-[18px]" />
+					</span>
+					{service.title}
+				</p>
+
+				<h1 class="mb-0 text-[clamp(2.25rem,4.6vw,3.25rem)] leading-[1.08] font-normal tracking-[-0.03em]">{page.headline}</h1>
+
+				<p class="mt-6 max-w-[34rem] text-lg leading-relaxed text-navy/75 md:text-xl md:leading-relaxed">{service.body}</p>
+
+				<div class="mt-10 flex flex-col gap-3 sm:flex-row sm:items-center">
+					<Button client:load href="#demo" variant="hero" size="lg" icon="arrow" className="max-sm:justify-between">
+						Book a demo
+					</Button>
+					<Button client:load href="/revenue-valet#offer" variant="outline" size="lg">All services</Button>
+				</div>
+			</div>
+		</div>
+
+		<div class="grain relative isolate flex min-h-[420px] items-center justify-center overflow-hidden bg-gradient-dusk px-5 py-14 sm:px-10">
+			<div class="pointer-events-none absolute -top-1/4 -right-1/4 size-[80%] rounded-full bg-white/25 blur-3xl" aria-hidden="true"></div>
+			<PulseRings x="50%" y="55%" size="140%" />
+			{
+				page.key === "instanet" ? (
+					<div class="w-full max-w-[360px]">
+						<OfferViz kind="instanet" />
+					</div>
+				) : (
+					<div
+						class="w-full max-w-[420px] rounded-3xl bg-[#0b1142]/95 p-7 text-white shadow-[0_40px_80px_-30px_rgb(5_10_74/0.6)] ring-1 ring-white/10 backdrop-blur md:p-8"
+						aria-hidden="true"
+					>
+						<div class="flex items-center gap-4">
+							<span class="icon-tile flex size-12 items-center justify-center rounded-2xl">
+								<Icon className="size-6" />
+							</span>
+							<p class="font-heading text-lg leading-tight font-medium">{service.title}</p>
+						</div>
+						<OfferViz kind={page.key} />
+					</div>
+				)
+			}
+		</div>
+	</section>
+
+	<!-- Overview -->
+	<section class="py-20 md:py-28">
+		<div class="mx-auto grid max-w-site gap-12 px-5 lg:grid-cols-[1fr_1.1fr] lg:gap-20 lg:px-8">
+			<div>
+				<p class="mb-3 font-heading text-xs font-medium tracking-widest text-royal uppercase">Overview</p>
+				<h2 class="mb-6">{page.overview.heading}</h2>
+				{page.overview.paragraphs.map((p) => <p class="mb-4 text-lg text-muted-foreground">{p}</p>)}
+				<p class="mt-8 text-sm text-muted-foreground">
+					Part of <a href="/revenue-valet" class="font-semibold text-royal hover:underline">Revenue Valet</a>, our resident benefits
+					program. Bundle it with other services or use it on its own.
+				</p>
+			</div>
+
+			<ul class="grid content-start">
+				{
+					page.overview.points.map((pt, i) => (
+						<li class="flex gap-5 border-t border-navy/10 py-7 first:border-t-0 first:pt-0">
+							<span class="flex size-10 shrink-0 items-center justify-center rounded-full bg-ice font-heading text-sm font-medium text-royal tabular-nums">
+								0{i + 1}
+							</span>
+							<div>
+								<h3 class="mb-2 text-xl! md:text-[1.375rem]!">{pt.title}</h3>
+								<p class="text-muted-foreground">{pt.body}</p>
+							</div>
+						</li>
+					))
+				}
+			</ul>
+		</div>
+	</section>
+
+	<DemoSection
+		service={service.title}
+		heading={`See ${service.title} in action`}
+		intro={`Tell us about your company and we’ll show you how ${service.title} fits into your resident benefits program.`}
+	/>
+</SiteLayout>

@@ -1,0 +1,358 @@
+---
+/*
+ * Small data visuals for the "What we offer" cards. Figures come from the card copy
+ * (5 min, 3 days, 40%, 15%); everything else is shape only, with no invented numbers.
+ * Visuals draw in when scrolled into view and render finished without JS or with reduced motion.
+ */
+import { ArrowDown, ArrowUp, Check, Star } from "lucide-react";
+
+interface Props {
+	kind: "instanet" | "pest" | "filters" | "insurance" | "rewards" | "credit" | "deals" | "valet" | "coming";
+}
+const { kind } = Astro.props;
+
+const months = ["J", "F", "M", "A", "M", "J", "J", "A", "S", "O", "N", "D"];
+const income = [30, 34, 33, 41, 46, 45, 54, 58, 63, 70, 77, 88];
+const deals = [
+	{ label: "Groceries", len: 42, color: "#2cccfb" },
+	{ label: "Automotive", len: 30, color: "#3399ff" },
+	{ label: "Everything in between", len: 28, color: "#d1a2fc" },
+];
+const ratings = [96, 3, 1, 0.5, 0.5];
+// NOI trend: history, then projection. Plotted in a 300 × 90 box.
+const noiHistory = "M0 72 C 30 70, 45 64, 70 62 S 120 56, 150 50";
+const noiProjection = "M150 50 C 190 42, 230 30, 300 12";
+
+let offset = 0;
+const segments = deals.map((d) => {
+	const s = { ...d, rotate: (offset / 100) * 360 - 90 };
+	offset += d.len;
+	return s;
+});
+---
+
+<div data-viz class:list={["viz", kind === "instanet" ? "" : kind === "coming" ? "" : "panel"]} aria-hidden="true">
+	{
+		kind === "instanet" && (
+			<div class="w-full rounded-2xl bg-white/75 p-5 shadow-[0_30px_60px_-30px_rgb(5_10_74/0.5)] ring-1 ring-white backdrop-blur-md">
+				<div class="flex items-center justify-between text-xs font-semibold text-navy">
+					<span>Ancillary income</span>
+					<span class="flex items-center gap-1 rounded-full bg-[#e3f9ee] px-2 py-0.5 text-[#0f7a45]">
+						<ArrowUp className="size-3" /> Growing
+					</span>
+				</div>
+				<div class="mt-4 flex h-28 items-end gap-1.5 border-b border-navy/10">
+					{income.map((h, i) => (
+						<span class="col flex-1 rounded-t-[4px] bg-gradient-to-t from-royal to-cyan" style={`height:${h}%;--d:${i * 0.05}s`} />
+					))}
+				</div>
+				<div class="mt-1.5 flex justify-between text-[10px] text-navy/50">
+					{months.map((m) => <span class="flex-1 text-center">{m}</span>)}
+				</div>
+				<div class="mt-4 grid grid-cols-2 gap-2 text-xs font-semibold text-navy">
+					<span class="flex items-center gap-1.5 rounded-xl bg-ice px-3 py-2">
+						<ArrowDown className="size-3.5 text-royal" /> Residents save
+					</span>
+					<span class="flex items-center gap-1.5 rounded-xl bg-ice px-3 py-2">
+						<ArrowUp className="size-3.5 text-royal" /> You earn
+					</span>
+				</div>
+			</div>
+		)
+	}
+
+	{
+		kind === "pest" && (
+			<div class="flex h-full flex-col justify-center">
+				<div class="relative mx-[16.667%] h-1.5 rounded-full bg-white/10">
+					<span class="bar absolute inset-0 rounded-full bg-gradient-to-r from-cyan to-royal" />
+					{[0, 50, 100].map((x, i) => (
+						<span
+							class="pop absolute top-1/2 size-3.5 -translate-1/2 rounded-full bg-cyan ring-4 ring-[#111851]"
+							style={`left:${x}%;--d:${0.2 + i * 0.45}s`}
+						/>
+					))}
+				</div>
+				<div class="mt-5 grid grid-cols-3 text-center">
+					{[
+						["Now", "Resident request"],
+						["5 min", "Response"],
+						["3 days", "Scheduled service"],
+					].map(([v, l]) => (
+						<div>
+							<p class="font-heading text-lg font-medium tracking-tight whitespace-nowrap text-cyan sm:text-xl">{v}</p>
+							<p class="mt-1 text-xs leading-tight text-white/60">{l}</p>
+						</div>
+					))}
+				</div>
+			</div>
+		)
+	}
+
+	{
+		kind === "filters" && (
+			<div class="flex h-full flex-col justify-center gap-4">
+				{[
+					["HVAC maintenance", 60, "−40%"],
+					["Heating/cooling bill", 85, "−15%"],
+				].map(([label, w, delta], i) => (
+					<div>
+						<div class="flex items-baseline justify-between">
+							<span class="text-xs text-white/60">{label}</span>
+							<span class="font-heading text-lg font-medium text-cyan">{delta}</span>
+						</div>
+						<div class="relative mt-1.5 h-2.5 rounded-full bg-white/12">
+							<span class="bar absolute inset-y-0 left-0 rounded-full bg-gradient-to-r from-royal to-cyan" style={`width:${w}%;--d:${i * 0.15}s`} />
+						</div>
+					</div>
+				))}
+				<div class="flex gap-4 text-[11px] text-white/50">
+					<span class="flex items-center gap-1.5"><span class="size-2 rounded-full bg-white/25" />Before</span>
+					<span class="flex items-center gap-1.5"><span class="size-2 rounded-full bg-cyan" />With Revenue Valet</span>
+				</div>
+			</div>
+		)
+	}
+
+	{
+		kind === "insurance" && (
+			<div class="flex h-full flex-col justify-center gap-3.5">
+				<p class="text-xs text-white/60">Resident coverage</p>
+				{[
+					["Industry standard", 56, "bg-white/30"],
+					["Revenue Valet", 100, "bg-gradient-to-r from-cyan to-lavender"],
+				].map(([label, w, bg], i) => (
+					<div class="grid grid-cols-[6.5rem_1fr] items-center gap-3">
+						<span class:list={["text-xs", i ? "font-semibold text-white" : "text-white/60"]}>{label}</span>
+						<span class="h-2.5 rounded-full bg-white/8">
+							<span class:list={["bar block h-full rounded-full", bg]} style={`width:${w}%;--d:${i * 0.2}s`} />
+						</span>
+					</div>
+				))}
+				<p class="fade flex items-center gap-1.5 text-xs font-semibold text-cyan" style="--d:0.6s">
+					<Check className="size-3.5" /> White glove service for operators
+				</p>
+			</div>
+		)
+	}
+
+	{
+		kind === "rewards" && (
+			<div class="flex h-full flex-col">
+				<div class="flex items-center justify-between text-xs text-white/60">
+					<span>Points from on-time rent</span>
+					<ArrowUp className="size-3.5 text-cyan" />
+				</div>
+				<div class="mt-2 flex flex-1 items-end gap-1.5 border-b border-white/10">
+					{months.map((_, i) => (
+						<span
+							class:list={["col flex-1 rounded-t-[3px]", i === 11 ? "bg-lavender" : "bg-gradient-to-t from-royal to-cyan"]}
+							style={`height:${((i + 1) / 12) * 100}%;--d:${i * 0.06}s`}
+						/>
+					))}
+				</div>
+				<div class="mt-1 flex text-[10px] text-white/40">
+					{months.map((m) => <span class="flex-1 text-center">{m}</span>)}
+				</div>
+			</div>
+		)
+	}
+
+	{
+		kind === "credit" && (
+			<div class="flex h-full flex-col items-center justify-center">
+				<svg viewBox="0 0 200 112" class="h-24 w-auto overflow-visible">
+					<defs>
+						<linearGradient id="rv-gauge" x1="0" x2="1">
+							<stop offset="0%" stop-color="#d1a2fc" />
+							<stop offset="100%" stop-color="#2cccfb" />
+						</linearGradient>
+					</defs>
+					<path d="M20 100 A80 80 0 0 1 180 100" stroke="rgb(255 255 255 / 0.1)" stroke-width="14" stroke-linecap="round" fill="none" />
+					<path
+						class="draw"
+						d="M20 100 A80 80 0 0 1 180 100"
+						pathLength="100"
+						stroke="url(#rv-gauge)"
+						stroke-width="14"
+						stroke-linecap="round"
+						fill="none"
+						style="--len:80;stroke-dasharray:80 100"
+					/>
+					<g class="needle" style="--rot:54deg">
+						<line x1="100" y1="100" x2="100" y2="42" stroke="white" stroke-width="3" stroke-linecap="round" />
+					</g>
+					<circle cx="100" cy="100" r="7" fill="white" />
+				</svg>
+				<div class="mt-1 flex w-full max-w-[13rem] justify-between text-[11px] text-white/50">
+					<span>Fair</span>
+					<span class="font-semibold text-cyan">Credit building</span>
+					<span>Excellent</span>
+				</div>
+			</div>
+		)
+	}
+
+	{
+		kind === "deals" && (
+			<div class="flex h-full items-center gap-5">
+				<svg viewBox="0 0 36 36" class="size-24 shrink-0">
+					<circle cx="18" cy="18" r="15.9155" fill="none" stroke="rgb(255 255 255 / 0.08)" stroke-width="5" />
+					{segments.map((s, i) => (
+						<circle
+							class="draw"
+							cx="18"
+							cy="18"
+							r="15.9155"
+							fill="none"
+							pathLength="100"
+							stroke={s.color}
+							stroke-width="5"
+							transform={`rotate(${s.rotate} 18 18)`}
+							style={`--len:${s.len - 1.5};stroke-dasharray:${s.len - 1.5} 100;--d:${i * 0.25}s`}
+						/>
+					))}
+				</svg>
+				<ul class="grid gap-2 text-xs text-white/70">
+					<li class="text-white/50">Where residents save</li>
+					{deals.map((d) => (
+						<li class="flex items-center gap-2">
+							<span class="size-2.5 shrink-0 rounded-full" style={`background:${d.color}`} />
+							{d.label}
+						</li>
+					))}
+				</ul>
+			</div>
+		)
+	}
+
+	{
+		kind === "valet" && (
+			<div class="flex h-full flex-col justify-center gap-1.5">
+				<p class="mb-1 text-xs text-white/60">First impressions at move-in</p>
+				{ratings.map((w, i) => (
+					<div class="flex items-center gap-2.5">
+						<span class="flex w-7 items-center gap-0.5 text-[11px] text-white/60">
+							{5 - i}
+							<Star className="size-2.5 fill-current text-[#f5a524]" />
+						</span>
+						<span class="h-1.5 flex-1 rounded-full bg-white/8">
+							<span
+								class:list={["bar block h-full rounded-full", i === 0 ? "bg-gradient-to-r from-cyan to-[#f5a524]" : "bg-white/30"]}
+								style={`width:${Math.max(w, 2)}%;--d:${i * 0.08}s`}
+							/>
+						</span>
+					</div>
+				))}
+			</div>
+		)
+	}
+
+	{
+		kind === "coming" && (
+			<div class="w-full">
+				<div class="flex items-center justify-between text-xs text-white/60">
+					<span>NOI</span>
+					<span class="flex items-center gap-3">
+						<span class="flex items-center gap-1.5"><span class="h-0.5 w-3 rounded bg-cyan" />Today</span>
+						<span class="flex items-center gap-1.5"><span class="h-0.5 w-3 rounded border-t-2 border-dashed border-lavender" />Coming</span>
+					</span>
+				</div>
+				<svg viewBox="0 0 300 90" class="mt-2 h-20 w-full overflow-visible" preserveAspectRatio="none">
+					{[30, 60].map((y) => <line x1="0" x2="300" y1={y} y2={y} stroke="rgb(255 255 255 / 0.06)" />)}
+					<path class="draw" d={noiHistory} pathLength="100" fill="none" stroke="#2cccfb" stroke-width="2.5" stroke-linecap="round" vector-effect="non-scaling-stroke" style="--len:100;stroke-dasharray:100 100" />
+					<path class="fade" d={noiProjection} fill="none" stroke="#d1a2fc" stroke-width="2.5" stroke-dasharray="5 6" stroke-linecap="round" vector-effect="non-scaling-stroke" style="--d:0.9s" />
+				</svg>
+			</div>
+		)
+	}
+</div>
+
+<style>
+	.panel {
+		margin-top: 1.75rem;
+		height: 9.5rem;
+		border-radius: 1rem;
+		padding: 1rem 1.125rem;
+		background: rgb(255 255 255 / 0.035);
+		box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.07);
+	}
+
+	/* Finished state is the default; [data-armed] (set by the script) holds it back until in view. */
+	.bar,
+	.col,
+	.pop,
+	.fade,
+	.draw,
+	.needle {
+		transition-duration: 1.2s;
+		transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+		transition-delay: var(--d, 0s);
+	}
+	.bar {
+		transform-origin: left center;
+		transition-property: transform;
+	}
+	.col {
+		transform-origin: bottom;
+		transition-property: transform;
+	}
+	.pop {
+		transition-property: opacity, scale;
+		transition-duration: 0.5s;
+	}
+	.fade {
+		transition-property: opacity;
+	}
+	.draw {
+		stroke-dashoffset: 0;
+		transition-property: stroke-dashoffset;
+		transition-duration: 1.4s;
+	}
+	.needle {
+		transform-box: view-box;
+		transform-origin: 100px 100px;
+		transform: rotate(var(--rot));
+		transition-property: transform;
+		transition-duration: 1.6s;
+	}
+
+	.viz[data-armed]:not(.is-in) .bar {
+		transform: scaleX(0);
+	}
+	.viz[data-armed]:not(.is-in) .col {
+		transform: scaleY(0);
+	}
+	.viz[data-armed]:not(.is-in) .pop {
+		opacity: 0;
+		scale: 0.3;
+	}
+	.viz[data-armed]:not(.is-in) .fade {
+		opacity: 0;
+	}
+	.viz[data-armed]:not(.is-in) .draw {
+		stroke-dashoffset: var(--len);
+	}
+	.viz[data-armed]:not(.is-in) .needle {
+		transform: rotate(-90deg);
+	}
+</style>
+
+<script>
+	if (!matchMedia("(prefers-reduced-motion: reduce)").matches && "IntersectionObserver" in window) {
+		const io = new IntersectionObserver(
+			(entries) => {
+				for (const e of entries) {
+					if (!e.isIntersecting) continue;
+					e.target.classList.add("is-in");
+					io.unobserve(e.target);
+				}
+			},
+			{ threshold: 0.4 },
+		);
+		document.querySelectorAll<HTMLElement>("[data-viz]").forEach((el) => {
+			el.dataset.armed = "";
+			io.observe(el);
+		});
+	}
+</script>

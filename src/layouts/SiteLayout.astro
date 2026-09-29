@@ -1,0 +1,47 @@
+---
+import "@/styles/app.css";
+import SiteNav from "@/components/site/SiteNav";
+import Footer from "@/components/site/Footer.astro";
+
+interface Props {
+	title: string;
+	description?: string;
+	/** Overrides for the closing CTA banner above the footer, or `false` to hide it. */
+	cta?: { title?: string; label?: string; href?: string } | false;
+}
+
+const {
+	title,
+	description = "Utility Valet connects electricity, water, internet and more before move-in, so residents arrive to a home that's ready.",
+	cta,
+} = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>{title}</title>
+		<meta name="description" content={description} />
+		<link rel="canonical" href={canonical} />
+		<link rel="icon" type="image/png" sizes="32x32" href="/brand/logo/favicon-32.png" />
+		<link rel="apple-touch-icon" href="/brand/logo/apple-touch-icon.png" />
+		<meta property="og:title" content={title} />
+		<meta property="og:description" content={description} />
+		<meta property="og:type" content="website" />
+	</head>
+	<body>
+		<a
+			href="#main"
+			class="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[60] focus:rounded-full focus:bg-navy focus:px-4 focus:py-2 focus:text-white"
+			>Skip to content</a
+		>
+		<SiteNav client:load />
+		<main id="main">
+			<slot />
+		</main>
+		<Footer cta={cta !== false} ctaTitle={cta ? cta.title : undefined} ctaLabel={cta ? cta.label : undefined} ctaHref={cta ? cta.href : undefined} />
+	</body>
+</html>

@@ -1,0 +1,76 @@
+---
+import { Button } from "@/components/ui/button";
+import HeroVisual from "@/components/site/HeroVisual";
+import PulseRings from "@/components/site/PulseRings.astro";
+import { REVIEW_COUNT, REVIEWS_URL } from "@/data/testimonials";
+
+const avatars = ["1-keirra", "3-cheri", "6-syed", "9-makayla"];
+---
+
+<section class="grid lg:min-h-[max(640px,calc(100svh-5rem))] lg:grid-cols-2">
+	<!-- Copy -->
+	<div class="flex items-center bg-mist px-5 py-16 sm:px-10 sm:py-20 lg:py-24 lg:pr-12 lg:pl-16 xl:pl-24 2xl:pl-32">
+		<div class="w-full max-w-[640px] 2xl:max-w-[720px]">
+			<h1 class="mb-0 text-[clamp(2.5rem,5.4vw,3.75rem)] leading-[1.06] font-normal tracking-[-0.03em] lg:text-[clamp(2.75rem,3.9vw,4.25rem)]">
+				Turning on every <span class="text-steel">American home</span>
+			</h1>
+
+			<p class="mt-6 max-w-[34rem] text-lg leading-relaxed text-navy/75 md:text-xl md:leading-relaxed">
+				We set up electricity, water, internet and more before move-in, so residents arrive to a home that's ready and property
+				managers earn on every move.
+			</p>
+
+			<div class="mt-10 flex flex-col gap-3 sm:flex-row sm:items-center">
+				<Button client:load href="/property-managers" variant="hero" size="lg" icon="arrow" className="max-sm:justify-between">
+					Book a demo
+				</Button>
+				<Button client:load href="/residents" variant="outline" size="lg">I'm moving</Button>
+			</div>
+
+			<div class="mt-12 flex items-center gap-4">
+				<div class="flex -space-x-2.5">
+					{
+						avatars.map((a) => (
+							<img
+								src={`/brand/testimonials/review-${a}.jpg`}
+								alt=""
+								class="size-9 rounded-full object-cover object-top ring-2 ring-mist"
+								width="36"
+								height="36"
+							/>
+						))
+					}
+				</div>
+				<div class="text-sm leading-snug">
+					<div class="flex gap-0.5 text-[#f5a524]" aria-label="5 out of 5 stars">
+						{Array.from({ length: 5 }).map(() => (
+							<svg viewBox="0 0 20 20" class="size-3.5 fill-current" aria-hidden="true">
+								<path d="M10 1.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L10 14.9l-5.2 2.7 1-5.8L1.5 7.7l5.9-.9z" />
+							</svg>
+						))}
+					</div>
+					<p class="mt-0.5 text-muted-foreground">
+						<a
+							href={REVIEWS_URL}
+							target="_blank"
+							rel="noopener noreferrer"
+							class="font-semibold text-navy underline decoration-navy/30 underline-offset-2 transition-colors hover:decoration-navy"
+							>Over {REVIEW_COUNT} reviews</a
+						> from real residents
+					</p>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Product visual -->
+	<div class="grain relative isolate min-h-[440px] overflow-hidden bg-gradient-sky sm:min-h-[560px] lg:min-h-0">
+		<div
+			class="pointer-events-none absolute -top-1/4 -right-1/4 size-[80%] rounded-full bg-white/25 blur-3xl"
+			aria-hidden="true"
+		>
+		</div>
+		<PulseRings x="32%" y="58%" size="150%" />
+		<HeroVisual client:load />
+	</div>
+</section>

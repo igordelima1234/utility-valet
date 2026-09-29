@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="100.266" height="48.519" viewBox="0 0 100.266 48.519">
+  <defs>
+    <radialGradient id="radial-gradient" cx="0.5" cy="0.5" r="0.5" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#d1a2fc"></stop>
+      <stop offset="0.52" stop-color="#bef0fe"></stop>
+      <stop offset="1" stop-color="#77b2fc"></stop>
+    </radialGradient>
+    <clipPath id="clip-path">
+      <rect id="Rectangle_165" data-name="Rectangle 165" width="48.266" height="48.519" fill="url(#radial-gradient)"></rect>
+    </clipPath>
+  </defs>
+  <g id="Group_207" data-name="Group 207" transform="translate(-613.815 -7399.01)">
+    <g id="Group_19" data-name="Group 19" transform="translate(613.815 7399.01)">
+      <g id="Group_18" data-name="Group 18" clip-path="url(#clip-path)">
+        <path id="Path_163" data-name="Path 163" d="M0,4.008V44.5a4.008,4.008,0,0,0,6.842,2.834L47.084,7.095A4.008,4.008,0,0,0,44.275.253L4.033,0A4.008,4.008,0,0,0,0,4.008" transform="translate(0 0)" fill="url(#radial-gradient)"></path>
+      </g>
+    </g>
+    <g id="Group_20" data-name="Group 20" transform="translate(665.815 7399.01)">
+      <g id="Group_18-2" data-name="Group 18" clip-path="url(#clip-path)">
+        <path id="Path_163-2" data-name="Path 163" d="M0,4.008V44.5a4.008,4.008,0,0,0,6.842,2.834L47.084,7.095A4.008,4.008,0,0,0,44.275.253L4.033,0A4.008,4.008,0,0,0,0,4.008" transform="translate(0 0)" fill="url(#radial-gradient)"></path>
+      </g>
+    </g>
+  </g>
+</svg>

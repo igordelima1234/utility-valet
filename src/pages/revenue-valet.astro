@@ -1,0 +1,24 @@
+---
+import SiteLayout from "@/layouts/SiteLayout.astro";
+import Hero from "@/components/site/revenue-valet/Hero.astro";
+import Offer from "@/components/site/revenue-valet/Offer.astro";
+import WhyChoose from "@/components/site/revenue-valet/WhyChoose.astro";
+import Reviews from "@/components/site/revenue-valet/Reviews.astro";
+import DemoSection from "@/components/site/revenue-valet/DemoSection.astro";
+---
+
+<SiteLayout
+	title="Revenue Valet · A better way to do resident benefits"
+	description="Revenue Valet by Utility Valet bundles internet, renter's insurance, pest control, air filter delivery, rewards, credit reporting and exclusive deals into one resident benefits program. Better pricing. Better service."
+	cta={false}
+>
+	<Hero />
+	<Offer />
+	<WhyChoose />
+	<Reviews />
+	<DemoSection
+		service="Revenue Valet"
+		heading="Ready for a better way to do resident benefits?"
+		intro="Tell us about your company and we’ll show you how Revenue Valet can bring better pricing and better service to your residents."
+	/>
+</SiteLayout>

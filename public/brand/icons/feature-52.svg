@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="64" height="64" viewBox="0 0 64 64">
+  <defs>
+    <clipPath id="clip-path">
+      <rect id="Rectangle_189" data-name="Rectangle 189" width="64" height="64" transform="translate(0 0.05)" fill="none" stroke="#060a4b" stroke-width="1"></rect>
+    </clipPath>
+  </defs>
+  <g id="Group_52" data-name="Group 52" transform="translate(0 -0.05)">
+    <g id="Group_51" data-name="Group 51" clip-path="url(#clip-path)">
+      <path id="Path_215" data-name="Path 215" d="M32,21.05a15,15,0,1,0,15,15,14.98,14.98,0,0,0-15-15m0,18a3.009,3.009,0,0,1-3-3,2.946,2.946,0,0,1,3-3,3,3,0,0,1,0,6" fill="#2cccfb"></path>
+      <circle id="Ellipse_43" data-name="Ellipse 43" cx="26.7" cy="26.7" r="26.7" transform="translate(5.3 9.45)" fill="none" stroke="#060a4b" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"></circle>
+      <circle id="Ellipse_44" data-name="Ellipse 44" cx="3" cy="3" r="3" transform="translate(29 33.05)" fill="none" stroke="#060a4b" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"></circle>
+      <circle id="Ellipse_45" data-name="Ellipse 45" cx="4.1" cy="4.1" r="4.1" transform="translate(27.9 1.25)" fill="none" stroke="#060a4b" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"></circle>
+      <path id="Path_216" data-name="Path 216" d="M54.5,15.15l-2.6,2.6m1.1-5,3.9,3.8M9.8,15.15l2.6,2.6m-1.1-5-3.9,3.8M32,14.75v1.1m0,40.5v1.1m21.3-21.3H52.2m-40.4,0H10.7m36.4-15.1-.8.8M17.7,50.45l-.8.8m30.2-.1-.8-.8M17.7,21.85l-.8-.8M34,33.75l3.6-3.7" fill="none" stroke="#060a4b" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"></path>
+    </g>
+  </g>
+</svg>
