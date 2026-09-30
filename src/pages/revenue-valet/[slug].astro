@@ -5,18 +5,18 @@ import DemoSection from "@/components/site/revenue-valet/DemoSection.astro";
 import OfferViz from "@/components/site/revenue-valet/OfferViz.astro";
 import { serviceIcons } from "@/components/site/revenue-valet/icons";
 import { Button } from "@/components/ui/button";
-import { offerings, servicePages, type ServicePage } from "@/data/revenue-valet";
+import { getService } from "@/lib/sanity";
 
-export function getStaticPaths() {
-	return servicePages.map((page) => ({ params: { slug: page.slug }, props: { page } }));
-}
+// Copy is edited in Sanity (see src/lib/sanity.ts); render per request so published edits go live without a redeploy.
+export const prerender = false;
 
-const { page } = Astro.props as { page: ServicePage };
-const service = offerings[page.key];
+const page = await getService(Astro.params.slug!);
+if (!page) return new Response(null, { status: 404, statusText: "Not Found" });
+
 const Icon = serviceIcons[page.key];
 ---
 
-<SiteLayout title={`${service.title} · Revenue Valet`} description={service.body} cta={false}>
+<SiteLayout title={`${page.title} · Revenue Valet`} description={page.summary} cta={false}>
 	<!-- Hero -->
 	<section class="grid lg:grid-cols-2">
 		<div class="flex items-center bg-mist px-5 py-14 sm:px-10 sm:py-16 lg:py-20 lg:pr-12 lg:pl-16 xl:pl-24 2xl:pl-32">
@@ -31,7 +31,7 @@ const Icon = serviceIcons[page.key];
 								<path d="m6 3.5 4.5 4.5L6 12.5" />
 							</svg>
 						</li>
-						<li aria-current="page">{service.title}</li>
+						<li aria-current="page">{page.title}</li>
 					</ol>
 				</nav>
 
@@ -39,12 +39,12 @@ const Icon = serviceIcons[page.key];
 					<span class="icon-tile flex size-9 items-center justify-center rounded-xl">
 						<Icon className="size-[18px]" />
 					</span>
-					{service.title}
+					{page.title}
 				</p>
 
 				<h1 class="mb-0 text-[clamp(2.25rem,4.6vw,3.25rem)] leading-[1.08] font-normal tracking-[-0.03em]">{page.headline}</h1>
 
-				<p class="mt-6 max-w-[34rem] text-lg leading-relaxed text-navy/75 md:text-xl md:leading-relaxed">{service.body}</p>
+				<p class="mt-6 max-w-[34rem] text-lg leading-relaxed text-navy/75 md:text-xl md:leading-relaxed">{page.summary}</p>
 
 				<div class="mt-10 flex flex-col gap-3 sm:flex-row sm:items-center">
 					<Button client:load href="#demo" variant="hero" size="lg" icon="arrow" className="max-sm:justify-between">
@@ -72,7 +72,7 @@ const Icon = serviceIcons[page.key];
 							<span class="icon-tile flex size-12 items-center justify-center rounded-2xl">
 								<Icon className="size-6" />
 							</span>
-							<p class="font-heading text-lg leading-tight font-medium">{service.title}</p>
+							<p class="font-heading text-lg leading-tight font-medium">{page.title}</p>
 						</div>
 						<OfferViz kind={page.key} />
 					</div>
@@ -113,8 +113,8 @@ const Icon = serviceIcons[page.key];
 	</section>
 
 	<DemoSection
-		service={service.title}
-		heading={`See ${service.title} in action`}
-		intro={`Tell us about your company and we’ll show you how ${service.title} fits into your resident benefits program.`}
+		service={page.title}
+		heading={`See ${page.title} in action`}
+		intro={`Tell us about your company and we’ll show you how ${page.title} fits into your resident benefits program.`}
 	/>
 </SiteLayout>

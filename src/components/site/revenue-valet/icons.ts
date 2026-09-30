@@ -1,5 +1,5 @@
 import { AirVent, Award, BugOff, ConciergeBell, CreditCard, ShieldCheck, Sparkles, Tag, Wifi } from "lucide-react"
-import type { offerings } from "@/data/revenue-valet"
+import type { ServiceKey } from "@/data/revenue-valet"
 
 /** Icon for each Revenue Valet service, shared by the overview cards and subpages. */
 export const serviceIcons = {
@@ -12,4 +12,4 @@ export const serviceIcons = {
   deals: Tag,
   valet: ConciergeBell,
   coming: Sparkles,
-} satisfies Record<keyof typeof offerings, unknown>
+} satisfies Record<ServiceKey | "coming", unknown>

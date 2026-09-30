@@ -5,6 +5,9 @@ import Offer from "@/components/site/revenue-valet/Offer.astro";
 import WhyChoose from "@/components/site/revenue-valet/WhyChoose.astro";
 import Reviews from "@/components/site/revenue-valet/Reviews.astro";
 import DemoSection from "@/components/site/revenue-valet/DemoSection.astro";
+
+// The offer cards read from Sanity, so render per request to pick up published edits.
+export const prerender = false;
 ---
 
 <SiteLayout
