@@ -1,22 +1,27 @@
 ---
 import LivingRoomCover from "@/components/site/LivingRoomCover.astro";
+import { ResidentsVisual, RevenueVisual, TimeVisual } from "@/components/site/WhyPartnerVisuals";
 
+// `at` places the glass panel over the calm part of each photo (panel centre, % of card).
 const benefits = [
 	{
-		icon: "feature-48",
-		tint: "bg-ice-strong",
+		photo: "partner-revenue",
+		visual: "revenue",
+		at: "left:70%;top:44%",
 		title: "Earn extra through revenue sharing",
 		body: "Partnering with Utility Valet simplifies utility and service connections while creating a hassle-free revenue stream for your property, enhancing both efficiency and resident experience.",
 	},
 	{
-		icon: "feature-52",
-		tint: "bg-ice",
+		photo: "partner-staff",
+		visual: "time",
+		at: "left:31%;top:46%",
 		title: "Save time and effort for your staff",
 		body: "Eliminate the hassle of utility setups. Utility Valet handles it all, freeing your staff to focus on higher-priority tasks and boosting operational efficiency.",
 	},
 	{
-		icon: "feature-54",
-		tint: "bg-[#ebe9ff]",
+		photo: "partner-residents",
+		visual: "residents",
+		at: "left:24%;top:46%",
 		title: "Make life easier for your residents",
 		body: "With over 1,700 resident reviews, we take pride in making move-ins stress-free. Our dedicated service ensures residents feel supported from day one, leading to happier residents and lower turnover rates.",
 	},
@@ -32,16 +37,32 @@ const YOUTUBE_ID = "uMPjCjfpBFU";
 			<h2 class="mb-0">Why partner with us?</h2>
 		</div>
 
-		<div class="mt-12 grid gap-10 md:mt-16 md:grid-cols-3 md:gap-8 lg:gap-12">
+		<div class="mt-12 grid gap-12 md:mt-16 lg:grid-cols-3 lg:gap-6 xl:gap-8">
 			{
 				benefits.map((b) => (
-					<div class="border-t border-navy/10 pt-8">
-						<div class:list={["flex size-16 items-center justify-center rounded-2xl", b.tint]}>
-							<img src={`/brand/icons/${b.icon}.svg`} alt="" class="size-11" loading="lazy" />
+					<article class="md:grid md:grid-cols-[1.15fr_1fr] md:items-center md:gap-8 lg:block">
+						<div class="@container relative aspect-[4/3] overflow-hidden rounded-3xl bg-mist">
+							<img
+								src={`/brand/photos/${b.photo}-1200.jpg`}
+								alt=""
+								class="absolute inset-0 size-full object-cover"
+								width="1200"
+								height="896"
+								loading="lazy"
+							/>
+							<div class="pointer-events-none absolute -translate-1/2 select-none" style={b.at} aria-hidden="true">
+								<div class="scale-[0.58] @xs:scale-[0.66] @sm:scale-[0.76] @md:scale-[0.86] @lg:scale-[0.95]">
+									{b.visual === "revenue" && <RevenueVisual client:visible />}
+									{b.visual === "time" && <TimeVisual client:visible />}
+									{b.visual === "residents" && <ResidentsVisual client:visible />}
+								</div>
+							</div>
 						</div>
-						<h3 class="mt-6 mb-3 text-xl! md:text-[1.375rem]!">{b.title}</h3>
-						<p class="text-muted-foreground">{b.body}</p>
-					</div>
+						<div>
+							<h3 class="mt-6 mb-2 text-xl! md:mt-0 md:text-[1.375rem]! lg:mt-6">{b.title}</h3>
+							<p class="text-muted-foreground">{b.body}</p>
+						</div>
+					</article>
 				))
 			}
 		</div>

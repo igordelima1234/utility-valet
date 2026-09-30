@@ -177,8 +177,9 @@ export default function Testimonials() {
         </div>
       </div>
 
-      <Carousel setApi={setApi} opts={{ loop: true, align: "center" }} className="mt-12 md:mt-16" aria-label="Resident reviews">
-        <CarouselContent className="-ml-4 items-stretch py-4 md:-ml-6">
+      <Carousel setApi={setApi} opts={{ loop: true, align: "center" }} className="mt-12 -mb-12 md:mt-16" aria-label="Resident reviews">
+        {/* Extra bottom padding keeps the active card's shadow inside the clipped viewport. */}
+        <CarouselContent className="-ml-4 items-stretch pt-4 pb-16 md:-ml-6">
           {reviews.map((review, i) => (
             <CarouselItem key={review.name} className="basis-[86%] pl-4 sm:basis-1/2 md:pl-6 lg:basis-[36%] xl:basis-[30%]">
               <ReviewCard review={review} active={i === selected} />

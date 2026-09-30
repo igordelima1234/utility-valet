@@ -171,7 +171,7 @@ function MobileNav() {
       <SheetContent side="right" className="w-full gap-0 overflow-y-auto sm:max-w-sm">
         <SheetHeader className="border-b px-5 py-4">
           <SheetTitle>
-            <img src="/brand/logo/utility-valet-logo.png" alt="Utility Valet" className="h-9 w-auto" />
+            <img src="/brand/logo/utility-valet-logo.png" alt="Utility Valet" className="h-11 w-auto" />
           </SheetTitle>
         </SheetHeader>
         <nav aria-label="Main" className="px-5">
@@ -183,9 +183,18 @@ function MobileNav() {
                 </AccordionTrigger>
                 <AccordionContent className="grid gap-1 pb-4">
                   {group.links.map((link) => (
-                    <a key={link.href} href={link.href} className="rounded-lg px-3 py-2.5 hover:bg-mist">
-                      <span className="block font-semibold text-navy">{link.title}</span>
-                      <span className="block text-sm text-muted-foreground">{link.description}</span>
+                    <a
+                      key={link.href}
+                      href={link.href}
+                      className="group/link flex items-start gap-3.5 rounded-lg px-3 py-2.5 hover:bg-mist"
+                    >
+                      <span className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-ice text-royal transition-colors group-hover/link:bg-cyan group-hover/link:text-navy">
+                        <link.icon className="size-5" />
+                      </span>
+                      <span>
+                        <span className="block font-semibold text-navy">{link.title}</span>
+                        <span className="block text-sm text-muted-foreground">{link.description}</span>
+                      </span>
                     </a>
                   ))}
                 </AccordionContent>
@@ -216,7 +225,7 @@ export default function SiteNav() {
     <header className="sticky top-0 z-50 border-b border-navy/8 bg-white/85 backdrop-blur-lg">
       <div className="mx-auto grid h-18 grid-cols-[1fr_auto] items-center px-5 lg:h-20 lg:grid-cols-[1fr_auto_1fr] lg:px-8">
         <a href="/" className="flex items-center justify-self-start" aria-label="Utility Valet home">
-          <img src="/brand/logo/utility-valet-logo.png" alt="Utility Valet" className="h-10 w-auto lg:h-11" width={121} height={44} />
+          <img src="/brand/logo/utility-valet-logo.png" alt="Utility Valet" className="h-12 w-auto lg:h-14" width={154} height={56} />
         </a>
 
         <DesktopNav />
