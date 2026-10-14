@@ -145,7 +145,7 @@ export default function RevenueCalculator() {
           </div>
 
           <div className="mt-12 flex justify-center">
-            <Button href="/property-managers" size="lg" icon="arrow">
+            <Button href="/contact" size="lg" icon="arrow">
               Get started
             </Button>
           </div>

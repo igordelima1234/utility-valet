@@ -19,7 +19,7 @@ const STATES = [
 
 type Status = "idle" | "submitting" | "success" | "error"
 
-function Field({ id, label, required, children }: { id: string; label: string; required?: boolean; children: React.ReactNode }) {
+export function Field({ id, label, required, children }: { id: string; label: string; required?: boolean; children: React.ReactNode }) {
   return (
     <div className="grid gap-2">
       <Label htmlFor={id} className="text-navy">

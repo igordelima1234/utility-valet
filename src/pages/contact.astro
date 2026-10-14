@@ -1,0 +1,53 @@
+---
+import SiteLayout from "@/layouts/SiteLayout.astro";
+import ContactForm from "@/components/site/ContactForm";
+import { PHONE } from "@/components/site/SiteNav";
+---
+
+<SiteLayout
+	title="Contact · Utility Valet"
+	description="Get in touch with Utility Valet. Whether you manage properties, are moving in, or want to partner with us, our team is here to help."
+	cta={false}
+>
+	<section class="px-3 pt-3 md:px-4 md:pt-4">
+		<div class="relative isolate overflow-hidden rounded-[2rem] bg-[#0b1142] px-5 py-16 md:px-8 md:py-24">
+			<div
+				class="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(55%_45%_at_15%_0%,rgb(14_109_249/0.4),transparent_70%),radial-gradient(40%_40%_at_100%_100%,rgb(205_62_249/0.18),transparent_70%)]"
+				aria-hidden="true"
+			>
+			</div>
+
+			<div class="mx-auto grid max-w-site items-start gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16">
+				<div class="text-white lg:pt-6">
+					<p class="mb-3 font-heading text-xs font-medium tracking-widest text-cyan uppercase">Contact us</p>
+					<h1 class="mb-5 text-[clamp(2.25rem,4.6vw,3.25rem)] leading-[1.08] font-normal tracking-[-0.03em] text-white">
+						Let’s get you <span class="text-cyan">connected</span>
+					</h1>
+					<p class="max-w-md text-lg text-white/70">
+						Property manager, resident, or potential partner: send us a note and the right person on our team will get back to
+						you.
+					</p>
+
+					<dl class="mt-10 grid gap-6 border-t border-white/15 pt-8">
+						<div>
+							<dt class="mb-1 font-heading text-xs font-medium tracking-widest text-white/50 uppercase">Call us</dt>
+							<dd>
+								<a href={PHONE.href} class="text-xl font-semibold text-white hover:text-cyan">{PHONE.display}</a>
+							</dd>
+						</div>
+						<div>
+							<dt class="mb-1 font-heading text-xs font-medium tracking-widest text-white/50 uppercase">Looking for resident benefits?</dt>
+							<dd>
+								<a href="/revenue-valet#demo" class="font-semibold text-cyan hover:underline">Book a Revenue Valet demo</a>
+							</dd>
+						</div>
+					</dl>
+				</div>
+
+				<div class="rounded-3xl bg-white p-6 shadow-[0_40px_80px_-40px_rgb(0_0_0/0.6)] sm:p-8 md:p-10">
+					<ContactForm client:load />
+				</div>
+			</div>
+		</div>
+	</section>
+</SiteLayout>

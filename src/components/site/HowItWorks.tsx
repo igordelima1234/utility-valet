@@ -14,10 +14,10 @@ const steps: Record<Audience, Step[]> = {
       body: (
         <>
           Complete the{" "}
-          <a href="/property-managers" className="font-semibold text-royal underline-offset-4 hover:underline">
+          <a href="/contact" className="font-semibold text-royal underline-offset-4 hover:underline">
             sign up form
           </a>{" "}
-          on our Property Managers page.
+          on our Contact page.
         </>
       ),
     },
