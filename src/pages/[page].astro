@@ -1,0 +1,19 @@
+---
+import SiteLayout from "@/layouts/SiteLayout.astro";
+import ComingSoon from "@/components/site/ComingSoon.astro";
+import { comingSoonPages } from "@/data/coming-soon";
+
+export function getStaticPaths() {
+	return comingSoonPages.map(({ slug, title }) => ({ params: { page: slug }, props: { title } }));
+}
+
+const { title } = Astro.props;
+---
+
+<SiteLayout title={`${title} · Utility Valet`} cta={false} noindex>
+	<ComingSoon
+		eyebrow={title}
+		heading={`Coming <span class="text-cyan">soon</span>`}
+		intro="We’re putting the finishing touches on this page. In the meantime, our team is happy to answer any questions."
+	/>
+</SiteLayout>

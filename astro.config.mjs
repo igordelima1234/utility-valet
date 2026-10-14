@@ -8,6 +8,7 @@ import cloudflare from "@astrojs/cloudflare";
 import react from "@astrojs/react";
 import tailwindcss from "@tailwindcss/vite";
 import { createClient } from "@sanity/client";
+import { comingSoonPages } from "./src/data/coming-soon.ts";
 
 const site = "https://utilityvalet.io";
 
@@ -25,7 +26,10 @@ export default defineConfig({
   site,
   integrations: [
     mdx(),
-    sitemap({ customPages: [`${site}/revenue-valet/`, ...serviceSlugs.map((slug) => `${site}/revenue-valet/${slug}/`)] }),
+    sitemap({
+      filter: (page) => !comingSoonPages.some(({ slug }) => page === `${site}/${slug}/`),
+      customPages: [`${site}/revenue-valet/`, ...serviceSlugs.map((slug) => `${site}/revenue-valet/${slug}/`)],
+    }),
     react(),
   ],
 

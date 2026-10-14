@@ -1,0 +1,12 @@
+---
+import SiteLayout from "@/layouts/SiteLayout.astro";
+import ComingSoon from "@/components/site/ComingSoon.astro";
+---
+
+<SiteLayout title="Page not found · Utility Valet" cta={false} noindex>
+	<ComingSoon
+		eyebrow="Error 404"
+		heading={`This page <span class="text-cyan">isn’t here</span>`}
+		intro="The page you’re looking for may have moved or doesn’t exist yet. Let’s get you back on track."
+	/>
+</SiteLayout>

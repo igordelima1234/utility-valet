@@ -10,6 +10,8 @@ interface Props {
 	cta?: { title?: string; label?: string; href?: string } | false;
 	/** Social sharing image (1200×630), relative to the site root. */
 	image?: string;
+	/** Keep search engines from indexing placeholder pages. */
+	noindex?: boolean;
 }
 
 const {
@@ -17,6 +19,7 @@ const {
 	description = "Utility Valet connects electricity, water, internet and more before move-in, so residents arrive to a home that's ready.",
 	cta,
 	image = "/brand/og-cover.jpg",
+	noindex = false,
 } = Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site);
 const ogImage = new URL(image, Astro.site);
@@ -30,6 +33,7 @@ const ogImage = new URL(image, Astro.site);
 		<title>{title}</title>
 		<meta name="description" content={description} />
 		<link rel="canonical" href={canonical} />
+		{noindex && <meta name="robots" content="noindex" />}
 		<link rel="icon" type="image/png" sizes="32x32" href="/brand/logo/favicon-32.png" />
 		<link rel="apple-touch-icon" href="/brand/logo/apple-touch-icon.png" />
 		<meta property="og:title" content={title} />

@@ -1,0 +1,42 @@
+---
+import { Button } from "@/components/ui/button";
+import PulseRings from "@/components/site/PulseRings.astro";
+import { PHONE } from "@/components/site/SiteNav";
+
+interface Props {
+	eyebrow: string;
+	heading: string;
+	intro: string;
+}
+const { eyebrow, heading, intro } = Astro.props;
+---
+
+<section class="px-3 pt-3 md:px-4 md:pt-4">
+	<div
+		class="grain relative isolate flex min-h-[max(520px,calc(100svh-14rem))] items-center justify-center overflow-hidden rounded-[2rem] bg-[#0b1142] px-5 py-20 text-center md:px-8"
+	>
+		<div
+			class="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(55%_45%_at_50%_0%,rgb(14_109_249/0.4),transparent_70%),radial-gradient(40%_40%_at_100%_100%,rgb(205_62_249/0.18),transparent_70%)]"
+			aria-hidden="true"
+		>
+		</div>
+		<PulseRings x="50%" y="50%" size="120%" />
+
+		<div class="relative mx-auto max-w-2xl text-white">
+			<p class="mb-4 font-heading text-xs font-medium tracking-widest text-cyan uppercase">{eyebrow}</p>
+			<h1 class="mb-6 text-[clamp(2.5rem,5.4vw,3.75rem)] leading-[1.06] font-normal tracking-[-0.03em] text-white">
+				<Fragment set:html={heading} />
+			</h1>
+			<p class="mx-auto max-w-lg text-lg text-white/70 md:text-xl">{intro}</p>
+
+			<div class="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
+				<Button client:load href="/contact" size="lg" icon="arrow">Get in touch</Button>
+				<Button client:load href="/" variant="outline" size="lg">Back to home</Button>
+			</div>
+
+			<p class="mt-8 text-white/60">
+				Prefer to talk now? Call <a href={PHONE.href} class="font-semibold text-cyan hover:underline">{PHONE.display}</a>
+			</p>
+		</div>
+	</div>
+</section>
