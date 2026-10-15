@@ -27,7 +27,7 @@ export default defineConfig({
   integrations: [
     mdx(),
     sitemap({
-      filter: (page) => !comingSoonPages.some(({ slug }) => page === `${site}/${slug}/`),
+      filter: (page) => page !== `${site}/blog/` && !comingSoonPages.some(({ slug }) => page === `${site}/${slug}/`),
       customPages: [`${site}/revenue-valet/`, ...serviceSlugs.map((slug) => `${site}/revenue-valet/${slug}/`)],
     }),
     react(),
