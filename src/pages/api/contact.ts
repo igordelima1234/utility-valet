@@ -1,12 +1,13 @@
 import type { APIRoute } from "astro"
+import { deliverSubmission, runtimeEnv } from "@/lib/form-delivery"
 
 export const prerender = false
 
 /*
- * Receives general enquiries from the Contact page and forwards them as JSON to
- * CONTACT_FORM_WEBHOOK_URL, falling back to DEMO_FORM_WEBHOOK_URL so one webhook can take both.
- * Set it with `wrangler secret put CONTACT_FORM_WEBHOOK_URL`, or in .dev.vars locally.
- * Without either the endpoint answers 503, so the form shows an error instead of losing a lead.
+ * Receives general enquiries from the Contact page and emails them (see lib/form-delivery).
+ * Also forwards them as JSON to CONTACT_FORM_WEBHOOK_URL if set, falling back to
+ * DEMO_FORM_WEBHOOK_URL so one webhook can take both.
+ * With no destination configured the endpoint answers 503, so the form shows an error instead of losing a lead.
  */
 
 const REQUIRED = ["name", "email", "topic", "message"] as const
@@ -30,20 +31,25 @@ export const POST: APIRoute = async ({ request, locals }) => {
   if (missing.length) return json({ error: "Missing fields", missing }, 400)
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(lead.email)) return json({ error: "Invalid email" }, 400)
 
-  const env = (locals as { runtime?: { env?: Record<string, string | undefined> } }).runtime?.env
-  const webhook =
-    env?.CONTACT_FORM_WEBHOOK_URL ??
-    import.meta.env.CONTACT_FORM_WEBHOOK_URL ??
-    env?.DEMO_FORM_WEBHOOK_URL ??
-    import.meta.env.DEMO_FORM_WEBHOOK_URL
-  if (!webhook) return json({ error: "Form delivery is not configured" }, 503)
-
-  const res = await fetch(webhook, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ ...lead, form: "contact", submittedAt: new Date().toISOString() }),
+  const env = runtimeEnv(locals)
+  const result = await deliverSubmission({
+    env,
+    subject: `New enquiry: ${lead.topic} (${lead.name})`,
+    fields: [
+      ["Name", lead.name],
+      ["Company", lead.company],
+      ["Email", lead.email],
+      ["Phone", lead.phone],
+      ["Topic", lead.topic],
+      ["Message", lead.message],
+      ["Page", lead.page],
+    ],
+    replyTo: lead.email,
+    webhook: env.CONTACT_FORM_WEBHOOK_URL ?? env.DEMO_FORM_WEBHOOK_URL,
+    webhookPayload: { ...lead, form: "contact", submittedAt: new Date().toISOString() },
   })
-  if (!res.ok) return json({ error: "Delivery failed" }, 502)
+  if (result === "not-configured") return json({ error: "Form delivery is not configured" }, 503)
+  if (result === "failed") return json({ error: "Delivery failed" }, 502)
 
   return json({ ok: true })
 }

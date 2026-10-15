@@ -1,12 +1,13 @@
 import type { APIRoute } from "astro"
+import { deliverSubmission, runtimeEnv } from "@/lib/form-delivery"
 
 export const prerender = false
 
 /*
- * Receives "Book a demo" submissions from the Revenue Valet service pages and
- * forwards them as JSON to DEMO_FORM_WEBHOOK_URL (Zapier, Make, HubSpot, Slack…).
- * Set it with `wrangler secret put DEMO_FORM_WEBHOOK_URL`, or in .dev.vars locally.
- * Without it the endpoint answers 503, so the form shows an error instead of losing a lead.
+ * Receives "Book a demo" submissions from the Revenue Valet service pages and emails them
+ * (see lib/form-delivery). Also forwards them as JSON to DEMO_FORM_WEBHOOK_URL
+ * (Zapier, Make, HubSpot, Slack…) if set.
+ * With no destination configured the endpoint answers 503, so the form shows an error instead of losing a lead.
  */
 
 const REQUIRED = ["company", "name", "phone", "email", "state"] as const
@@ -30,16 +31,26 @@ export const POST: APIRoute = async ({ request, locals }) => {
   if (missing.length) return json({ error: "Missing fields", missing }, 400)
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(lead.email)) return json({ error: "Invalid email" }, 400)
 
-  const env = (locals as { runtime?: { env?: Record<string, string | undefined> } }).runtime?.env
-  const webhook = env?.DEMO_FORM_WEBHOOK_URL ?? import.meta.env.DEMO_FORM_WEBHOOK_URL
-  if (!webhook) return json({ error: "Form delivery is not configured" }, 503)
-
-  const res = await fetch(webhook, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ ...lead, submittedAt: new Date().toISOString() }),
+  const env = runtimeEnv(locals)
+  const result = await deliverSubmission({
+    env,
+    subject: `Demo request: ${lead.service || "Revenue Valet"} (${lead.company})`,
+    fields: [
+      ["Service", lead.service],
+      ["Company", lead.company],
+      ["Name", lead.name],
+      ["Email", lead.email],
+      ["Phone", lead.phone],
+      ["State", lead.state],
+      ["How they heard about us", lead.source],
+      ["Page", lead.page],
+    ],
+    replyTo: lead.email,
+    webhook: env.DEMO_FORM_WEBHOOK_URL,
+    webhookPayload: { ...lead, submittedAt: new Date().toISOString() },
   })
-  if (!res.ok) return json({ error: "Delivery failed" }, 502)
+  if (result === "not-configured") return json({ error: "Form delivery is not configured" }, 503)
+  if (result === "failed") return json({ error: "Delivery failed" }, 502)
 
   return json({ ok: true })
 }
